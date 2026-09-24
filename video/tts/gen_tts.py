@@ -65,8 +65,8 @@ def main():
                 L = max(len(p) for p in parts) + int(0.03 * SR)
                 mix = np.zeros(L)
                 for j, p in enumerate(parts):
-                    off = int((j * 7 % 4) * 0.006 * SR)
-                    g = 1.0 if j == 0 else 0.42
+                    off = 0  # aligned onsets: staggering smears 'use Arch' into 'use harsh'
+                    g = 1.0 if j == 0 else 0.3
                     mix[off:off + len(p)] += g * p / (np.abs(p).max() + 1e-9)
                 x = mix / np.abs(mix).max() * 0.9
             else:

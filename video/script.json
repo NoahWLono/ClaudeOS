@@ -160,8 +160,8 @@
     },
     {
      "who": "gamer",
-     "text": "And I'm xX_PacmanSlayer_Xx. My RGB has RGB.",
-     "say": "And I'm Pac-Man Slayer. My R G B has R G B."
+     "text": "And I'm xX_PacmanSlayer_Xx. My RGB has RGB, and my blood type is Monster.",
+     "say": "And I'm Pac-Man Slayer. My R G B has R G B, and my blood type is Monster."
     },
     {
      "who": "claude",
@@ -837,7 +837,7 @@
     {
      "who": "all",
      "text": "I USE ARCH, BY THE WAY!",
-     "say": "I use Arch, by the way!",
+     "say": "I use, Arch, by the way!",
      "sfx": "crash",
      "tag": "chant",
      "pause": 0.8
@@ -849,6 +849,261 @@
      "sfx": "cheer"
     }
    ]
+  },
+  {
+   "id": "tut_intro",
+   "music": "lofi",
+   "card": [
+    "BONUS CHAPTER",
+    "THE ACTUAL TUTORIAL"
+   ],
+   "lead": 2.8,
+   "tail": 0.6,
+   "lines": [
+    {
+     "who": "claude",
+     "text": "Okay. Propaganda over. Here's the real, step-by-step install for a brand-new computer, following the official Arch installation guide."
+    },
+    {
+     "who": "claude",
+     "text": "Pause whenever you need to. Every command stays on screen long enough to copy."
+    },
+    {
+     "who": "claude",
+     "text": "One warning before anything else: this erases the entire disk you install to. Back up anything you care about first.",
+     "tag": "warn"
+    },
+    {
+     "who": "claude",
+     "text": "You'll need a USB stick of at least 2 GB, a 64-bit UEFI computer, and an internet connection. Ethernet is easiest.",
+     "say": "You'll need a U S B stick of at least two gigabytes, a sixty four bit U E F I computer, and an internet connection. Ethernet is easiest.",
+     "tag": "need"
+    },
+    {
+     "who": "femboy",
+     "text": "Socks on. Let's do it properly this time."
+    }
+   ],
+   "noBug": true
+  },
+  {
+   "id": "tut_usb",
+   "music": "lofi",
+   "lead": 0.6,
+   "tail": 0.5,
+   "lines": [
+    {
+     "who": "claude",
+     "text": "Step one: download the ISO and its signature from archlinux.org/download, then verify them. The download page lists the exact commands.",
+     "say": "Step one: download the I S O and its signature from arch linux dot org slash download, then verify them. The download page lists the exact commands."
+    },
+    {
+     "who": "claude",
+     "text": "Step two: write it to the USB stick. On Linux, find the stick under /dev/disk/by-id, and copy the image onto the whole device, not a partition. On Windows, Rufus does the same job.",
+     "say": "Step two: write it to the U S B stick. On Linux, find the stick under slash dev slash disk slash by I D, and copy the image onto the whole device, not a partition. On Windows, Rufus does the same job."
+    },
+    {
+     "who": "claude",
+     "text": "Step three: in the new computer's firmware settings, disable Secure Boot, because the install image doesn't support it. You can turn it back on later."
+    },
+    {
+     "who": "claude",
+     "text": "Then boot from the USB. Press the boot menu key shown on the startup screen, often F12, F11, F8, or Escape, and pick Arch Linux install medium.",
+     "say": "Then boot from the U S B. Press the boot menu key shown on the startup screen, often F twelve, F eleven, F eight, or Escape, and pick Arch Linux install medium."
+    }
+   ],
+   "noBug": true
+  },
+  {
+   "id": "tut_live",
+   "music": "lofi",
+   "lead": 0.6,
+   "tail": 0.5,
+   "lines": [
+    {
+     "who": "claude",
+     "text": "You're now at a root shell on the live system. If you don't use a US keyboard, set your layout with loadkeys. localectl list-keymaps shows every option.",
+     "say": "You're now at a root shell on the live system. If you don't use a U S keyboard, set your layout with load keys. Locale control list keymaps shows every option."
+    },
+    {
+     "who": "claude",
+     "text": "Confirm UEFI mode. This should print 64. If it says no such file, you booted in legacy BIOS mode, so go back to the firmware settings.",
+     "say": "Confirm U E F I mode. This should print sixty four. If it says no such file, you booted in legacy BIOS mode, so go back to the firmware settings."
+    },
+    {
+     "who": "claude",
+     "text": "Next, the network. Ethernet just works. For Wi-Fi, open iwctl, list your device, scan, and connect. Then ping to check.",
+     "say": "Next, the network. Ethernet just works. For Wi-Fi, open I W control, list your device, scan, and connect. Then ping to check."
+    },
+    {
+     "who": "claude",
+     "text": "Finally, run timedatectl and check that the clock is synchronized. A wrong clock makes package signatures fail.",
+     "say": "Finally, run time date control and check that the clock is synchronized. A wrong clock makes package signatures fail."
+    }
+   ],
+   "noBug": true
+  },
+  {
+   "id": "tut_disk",
+   "music": "lofi",
+   "lead": 0.6,
+   "tail": 0.5,
+   "lines": [
+    {
+     "who": "claude",
+     "text": "Find your disk with lsblk. An NVMe drive looks like nvme0n1, a SATA drive like sda. I'll use nvme0n1 from here on, so swap in your own name.",
+     "say": "Find your disk with L S B L K. An N V M E drive looks like N V M E zero N one, a SATA drive like S D A. I'll use N V M E zero N one from here on, so swap in your own name."
+    },
+    {
+     "who": "claude",
+     "text": "Partition it with cfdisk. Choose GPT, then make three partitions: one gigabyte of type EFI System, at least four gigabytes of Linux swap, and the rest as the Linux root.",
+     "say": "Partition it with C F disk. Choose G P T, then make three partitions: one gigabyte of type E F I System, at least four gigabytes of Linux swap, and the rest as the Linux root."
+    },
+    {
+     "who": "claude",
+     "text": "Choose Write, type yes, and quit."
+    },
+    {
+     "who": "claude",
+     "text": "Format them: FAT32 for the EFI partition, mkswap for the swap, and ext4 for root.",
+     "say": "Format them: fat thirty two for the E F I partition, make swap for the swap, and ext four for root."
+    },
+    {
+     "who": "claude",
+     "text": "Then mount root on /mnt, mount the EFI partition on /mnt/boot, and switch the swap on.",
+     "say": "Then mount root on slash M N T, mount the E F I partition on slash M N T slash boot, and switch the swap on."
+    }
+   ],
+   "noBug": true
+  },
+  {
+   "id": "tut_install",
+   "music": "lofi",
+   "lead": 0.6,
+   "tail": 0.5,
+   "lines": [
+    {
+     "who": "claude",
+     "text": "Install the base system with pacstrap. Add your CPU's microcode, intel-ucode or amd-ucode, plus a network manager, sudo, a text editor, and the manual pages.",
+     "say": "Install the base system with pac strap. Add your C P U's microcode, Intel u code or A M D u code, plus a network manager, sudo, a text editor, and the manual pages."
+    },
+    {
+     "who": "claude",
+     "text": "On a laptop, sof-firmware is often needed for the built-in speakers.",
+     "say": "On a laptop, S O F firmware is often needed for the built-in speakers."
+    },
+    {
+     "who": "claude",
+     "text": "Generate the fstab so your partitions mount at every boot, and check that all three show up.",
+     "say": "Generate the F S tab so your partitions mount at every boot, and check that all three show up."
+    }
+   ],
+   "noBug": true
+  },
+  {
+   "id": "tut_config",
+   "music": "lofi",
+   "lead": 0.6,
+   "tail": 0.5,
+   "lines": [
+    {
+     "who": "claude",
+     "text": "Now step inside with arch-chroot dash capital S. The S runs it in systemd mode, which lets the bootloader installer register its boot entry later.",
+     "say": "Now step inside with arch change root, dash capital S. The S runs it in system D mode, which lets the bootloader installer register its boot entry later."
+    },
+    {
+     "who": "claude",
+     "text": "Set your time zone, and write the hardware clock."
+    },
+    {
+     "who": "claude",
+     "text": "Uncomment your locale in /etc/locale.gen, for example en_US.UTF-8, run locale-gen, and put the same name in locale.conf.",
+     "say": "Uncomment your locale in slash etc slash locale dot gen, for example E N underscore U S dot U T F eight, run locale gen, and put the same name in locale dot conf."
+    },
+    {
+     "who": "claude",
+     "text": "Give the machine a hostname, and set a root password."
+    },
+    {
+     "who": "claude",
+     "text": "Then create your everyday user in the wheel group, set its password, and run visudo to uncomment the one line that lets wheel use sudo.",
+     "say": "Then create your everyday user in the wheel group, set its password, and run V I sudo to uncomment the one line that lets wheel use sudo."
+    }
+   ],
+   "noBug": true
+  },
+  {
+   "id": "tut_boot",
+   "music": "lofi",
+   "lead": 0.6,
+   "tail": 0.5,
+   "lines": [
+    {
+     "who": "claude",
+     "text": "Install systemd-boot onto the EFI partition.",
+     "say": "Install system D boot onto the E F I partition."
+    },
+    {
+     "who": "claude",
+     "text": "Then write two small files. loader.conf picks the default entry. arch.conf says where the kernel and initramfs live, and which partition is root.",
+     "say": "Then write two small files. Loader dot conf picks the default entry. Arch dot conf says where the kernel and init ram F S live, and which partition is root."
+    },
+    {
+     "who": "claude",
+     "text": "Don't type the root UUID by hand. Let blkid fill it in.",
+     "say": "Don't type the root U U I D by hand. Let B L K I D fill it in."
+    },
+    {
+     "who": "claude",
+     "text": "You don't need a separate microcode line: the microcode is packed into the initramfs automatically.",
+     "say": "You don't need a separate microcode line: the microcode is packed into the init ram F S automatically."
+    },
+    {
+     "who": "claude",
+     "text": "And enable NetworkManager, so the new system has internet on its first boot. The classic mistake. Not today.",
+     "say": "And enable Network Manager, so the new system has internet on its first boot. The classic mistake. Not today."
+    }
+   ],
+   "noBug": true
+  },
+  {
+   "id": "tut_reboot",
+   "music": "lofi",
+   "lead": 0.6,
+   "tail": 0.8,
+   "lines": [
+    {
+     "who": "claude",
+     "text": "Exit the chroot, unmount everything, and reboot. Pull out the USB stick when the screen goes dark.",
+     "say": "Exit the change root, unmount everything, and reboot. Pull out the U S B stick when the screen goes dark."
+    },
+    {
+     "who": "claude",
+     "text": "Log in as your user. For Wi-Fi, nmtui gives you a simple menu. Update, then install a desktop: KDE Plasma, GNOME, or a tiling compositor like Hyprland.",
+     "say": "Log in as your user. For Wi-Fi, N M T U I gives you a simple menu. Update, then install a desktop: K D E Plasma, Gnome, or a tiling compositor like Hyper land."
+    },
+    {
+     "who": "claude",
+     "text": "If anything goes wrong, the installation guide on the Arch Wiki is the source of truth. And if you'd rather just get it done, the live USB also ships archinstall, a guided installer.",
+     "say": "If anything goes wrong, the installation guide on the Arch Wiki is the source of truth. And if you'd rather just get it done, the live U S B also ships arch install, a guided installer."
+    },
+    {
+     "who": "gamer",
+     "text": "Can I install Monster with pacman?",
+     "say": "Can I install Monster with Pac-Man?"
+    },
+    {
+     "who": "claude",
+     "text": "No. And please don't check the AUR.",
+     "say": "No. And please don't check the Arch User Repository.",
+     "pause": 0.6
+    },
+    {
+     "who": "femboy",
+     "text": "And that's the whole install. The socks were optional. They were also correct."
+    }
+   ],
+   "noBug": true
   },
   {
    "id": "credits",

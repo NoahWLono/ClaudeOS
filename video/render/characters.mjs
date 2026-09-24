@@ -708,6 +708,7 @@ function drawGamer(ctx, st) {
   // arms behind torso for default pose
   const twoHand = prop === 'controller' || prop === 'handheld';
   const canUp = prop === 'can';
+  const toast = prop === 'monster';
   // torso
   const torso = () => {
     ctx.moveTo(-60, -200);
@@ -731,13 +732,15 @@ function drawGamer(ctx, st) {
   strings(ctx, -188, 40, NEON, '#E8FFE0');
   // arms
   const armL = twoHand ? [[-62, -186], [-86, -144], [-46, -122]] : [[-62, -186], [-88, -140], [-84, -100]];
-  const armR = twoHand ? [[62, -186], [86, -144], [46, -122]] : canUp ? [[62, -186], [92, -150], [68, -132]] : [[62, -186], [88, -140], [84, -100]];
-  limb(ctx, armL, 36, HOOD); limb(ctx, armR, 36, HOOD);
-  for (const a of [armL, armR]) { // neon cuffs
+  const armR = twoHand ? [[62, -186], [86, -144], [46, -122]] : canUp ? [[62, -186], [92, -150], [68, -132]] : toast ? [[62, -186], [124, -202], [150, -250]] : [[62, -186], [88, -140], [84, -100]];
+  const cuff = (a) => { // neon cuff at the sleeve end
     const p = a[a.length - 1], q = a[a.length - 2];
     const dx = p[0] - q[0], dy = p[1] - q[1], d = Math.hypot(dx, dy);
     limb(ctx, [[p[0] - dx / d * 10, p[1] - dy / d * 10], [p[0] - dx / d * 2, p[1] - dy / d * 2]], 36, NEON, 3);
-  }
+  };
+  const preArms = toast ? [armL] : [armL, armR];
+  for (const a of preArms) limb(ctx, a, 36, HOOD);
+  for (const a of preArms) cuff(a);
   // head
   const hy = HUMAN.hy + hb, hx = 0;
   headSkin(ctx, hx, hy, HUMAN.hrx, HUMAN.hry, SKIN, SKIN_S, false);
@@ -779,7 +782,23 @@ function drawGamer(ctx, st) {
     hand(ctx, -52, -122, 17, SKIN, SKIN_S); hand(ctx, 52, -122, 17, SKIN, SKIN_S);
   } else {
     hand(ctx, armL[2][0], armL[2][1] + 6, 17, SKIN, SKIN_S);
-    if (canUp) { drawCan(ctx, 84, -116, 104, 'GAMER FUEL', NEON); hand(ctx, 66, -128, 17, SKIN, SKIN_S); }
+    if (canUp) { drawCan(ctx, 84, -116, 104, 'MONSTER'); hand(ctx, 66, -128, 17, SKIN, SKIN_S); }
+    else if (toast) {
+      // raised like a toast: "cheers!"
+      limb(ctx, armR, 36, HOOD); cuff(armR);
+      const lift = Math.sin(t * 3.2) * 3;
+      ctx.save(); ctx.translate(154, -256 + lift); ctx.rotate(0.16 + Math.sin(t * 3.2) * 0.04);
+      drawCan(ctx, 0, 0, 104, 'MONSTER');
+      ctx.restore();
+      hand(ctx, 150, -250 + lift, 17, SKIN, SKIN_S);
+      const pulse = 0.5 + 0.5 * Math.sin(t * 6);
+      ctx.strokeStyle = INK; ctx.lineWidth = 4.5; ctx.lineCap = 'round'; ctx.beginPath();
+      for (const [a, r0] of [[-1.05, 0], [-0.55, 4], [-0.05, 0]]) {
+        const ox = 176, oy = -366 + lift, r = 16 + r0 + pulse * 5;
+        ctx.moveTo(ox + Math.cos(a) * r, oy + Math.sin(a) * r); ctx.lineTo(ox + Math.cos(a) * (r + 14), oy + Math.sin(a) * (r + 14));
+      }
+      ctx.stroke();
+    }
     else hand(ctx, armR[2][0], armR[2][1] + 6, 17, SKIN, SKIN_S);
   }
 }
@@ -848,11 +867,11 @@ function drawFemboy(ctx, st) {
   hoodCollar(ctx, -252, 70, HOOD, HOOD_S);
   strings(ctx, -242, 38, WHITE, PINK);
   // arms: right paw on hip (confident), left relaxed / hugging laptop
-  const hug = prop === 'laptop';
-  const armR = [[66, -240], [106, -202], [84, -168]];
-  const armL = hug ? [[-66, -240], [-106, -194], [-70, -156]] : [[-66, -240], [-94, -198], [-90, -164]];
-  limb(ctx, armR, 44, HOOD);
-  if (!hug) limb(ctx, armL, 44, HOOD);
+  const hug = prop === 'laptop', shark = prop === 'blahaj';
+  const armR = shark ? [[66, -240], [106, -198], [80, -158]] : [[66, -240], [106, -202], [84, -168]];
+  const armL = hug ? [[-66, -240], [-106, -194], [-70, -156]] : shark ? [[-66, -240], [-104, -194], [-10, -174]] : [[-66, -240], [-94, -198], [-90, -164]];
+  limb(ctx, armR, 44, HOOD); // (with the shark, this arm cradles it from underneath)
+  if (!hug && !shark) limb(ctx, armL, 44, HOOD);
   // head
   headSkin(ctx, hx, hy, HUMAN.hrx, HUMAN.hry, SKIN, SKIN_S, false);
   face(ctx, {
@@ -884,6 +903,13 @@ function drawFemboy(ctx, st) {
     strokeP(ctx, () => { ctx.moveTo(-8, 12); ctx.lineTo(-7, 20); ctx.moveTo(4, 13); ctx.lineTo(5, 21); }, INK, 3);
     ctx.restore();
   };
+  if (shark) {
+    drawBlahaj(ctx, 30, -190, 0.72, t, { squish: 0.67 + 0.04 * Math.sin(t * 2.2), rot: -0.12 });
+    paw(76, -150, 0.9);
+    limb(ctx, armL, 44, HOOD);
+    paw(-8, -172, -0.9);
+    return;
+  }
   paw(armR[2][0] - 4, armR[2][1] + 6, 0.3);
   if (hug) {
     ctx.save(); ctx.translate(-26, -198); ctx.rotate(-0.1); stickerLaptopBack(ctx, 0, 0, 150, t); ctx.restore();
@@ -1428,7 +1454,7 @@ const MOODS = new Set(['neutral', 'happy', 'excited', 'shock', 'smug', 'angry', 
 // composited once, so overlapping parts don't show through each other. Falls back to direct drawing.
 let LAYER = null, LAYER_BUSY = false;
 // conservative local-space bounds per character: [half-width, height above anchor]
-const BOUNDS = { claude: [250, 470], announcer: [180, 460], gamer: [200, 470], femboy: [190, 480], wiki: [200, 490], goblin: [170, 290],
+const BOUNDS = { claude: [250, 470], announcer: [180, 460], gamer: [240, 470], femboy: [190, 480], wiki: [200, 490], goblin: [170, 290],
   gentoo: [240, 500], lfs: [230, 460], nix: [210, 510], winupdate: [240, 420], tux: [200, 440], haiku: [170, 300], sonnet: [175, 300], fable: [170, 300] };
 function boundsOf(id, o) {
   if (id === 'wiki' && o.prop === 'tabs') return [300, 600];
@@ -1581,10 +1607,80 @@ export function drawSock(ctx, x, y, h, colors = [PINK, WHITE], angle = 0) {
   sockShape(ctx, x, y, h, colors && colors.length ? colors : [PINK, WHITE], angle, 1, 0, true);
 }
 
-export function drawCan(ctx, x, y, h, label = 'GAMER FUEL', color = NEON) {
+// can silhouette; crush 0..1 dents the waist (side = which flank takes the dent)
+function canBody(ctx, x, y, w, h, crush = 0, side = 1) {
+  const r = w * 0.18;
+  if (!crush) { rrect(ctx, x - w / 2, y - h, w, h, r); return; }
+  const d = w * 0.2 * crush, top = y - h, my = y - h * 0.52;
+  const L = x - w / 2, R = x + w / 2;
+  const dR = side > 0 ? d : d * 0.35, dL = side > 0 ? d * 0.35 : d;
+  ctx.moveTo(L + r, top);
+  ctx.lineTo(R - r, top + h * 0.03 * crush * side);
+  ctx.quadraticCurveTo(R, top + h * 0.03 * crush * side, R, top + r);
+  ctx.lineTo(R, my - h * 0.13); ctx.lineTo(R - dR, my - h * 0.02); ctx.lineTo(R - dR * 0.6, my + h * 0.05); ctx.lineTo(R, my + h * 0.14);
+  ctx.lineTo(R, y - r); ctx.quadraticCurveTo(R, y, R - r, y);
+  ctx.lineTo(L + r, y); ctx.quadraticCurveTo(L, y, L, y - r);
+  ctx.lineTo(L, my + h * 0.12); ctx.lineTo(L + dL, my + h * 0.03); ctx.lineTo(L + dL * 0.5, my - h * 0.06); ctx.lineTo(L, my - h * 0.15);
+  ctx.lineTo(L, top + r); ctx.quadraticCurveTo(L, top, L + r, top);
+  ctx.closePath();
+}
+// three jagged claw tears (original shape): centered at (cx,cy), W wide, H tall
+function clawSlashes(ctx, cx, cy, W, H, color) {
+  const specs = [[-0.34, 0.86, -0.1, 0.07], [0, 1, 0.02, 0.085], [0.34, 0.9, 0.12, 0.07]]; // x, length, lean, width
+  ctx.fillStyle = color;
+  for (let k = 0; k < 3; k++) {
+    const [ox, len, lean, wd] = specs[k];
+    const n = 8, top = cy - (H * len) / 2 + (k === 1 ? -H * 0.04 : H * 0.03), L = H * len, mw = W * wd;
+    const L_ = [], R_ = [];
+    for (let i = 0; i <= n; i++) {
+      const u = i / n, yy = top + u * L;
+      const xc = cx + ox * W + lean * W * (u - 0.5);
+      const hw = mw * Math.pow(Math.sin(Math.PI * clamp(u, 0.02, 0.98)), 0.75);
+      const j = (i % 2 ? 1 : -1) * mw * 0.42 * (i > 0 && i < n ? 1 : 0);
+      L_.push([xc - hw + j, yy]); R_.push([xc + hw + j * 0.6, yy + (i % 2 ? L * 0.03 : 0)]);
+    }
+    ctx.beginPath(); ctx.moveTo(L_[0][0], L_[0][1]);
+    for (let i = 1; i < L_.length; i++) ctx.lineTo(L_[i][0], L_[i][1]);
+    for (let i = R_.length - 1; i >= 0; i--) ctx.lineTo(R_[i][0], R_[i][1]);
+    ctx.closePath(); ctx.fill();
+  }
+}
+function smallCaps(ctx, str, x, y, size, family, color, maxW) {
+  const first = str.slice(0, 1), rest = str.slice(1);
+  ctx.save(); ctx.translate(x, y); if (FLIP) ctx.scale(-1, 1);
+  ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'left'; ctx.fillStyle = color;
+  ctx.font = `${size}px "${family}"`; const w1 = ctx.measureText(first).width;
+  ctx.font = `${size * 0.76}px "${family}"`; const w2 = ctx.measureText(rest).width;
+  const tot = w1 + w2 + size * 0.04, k = maxW && tot > maxW ? maxW / tot : 1;
+  ctx.scale(k, k);
+  ctx.font = `${size}px "${family}"`; ctx.fillText(first, -tot / 2, size * 0.36);
+  ctx.font = `${size * 0.76}px "${family}"`; ctx.fillText(rest, -tot / 2 + w1 + size * 0.04, size * 0.36);
+  ctx.restore();
+}
+function monsterCan(ctx, x, y, h, crush = 0, side = 1, claw = '#7CFF3A') {
   const w = h * 0.46, lw = Math.min(LW, Math.max(2, h * 0.05));
-  ctx.save();
-  const body = () => rrect(ctx, x - w / 2, y - h, w, h, w * 0.18);
+  const body = () => canBody(ctx, x, y, w, h, crush, side);
+  ctx.beginPath(); body(); ctx.fillStyle = '#18191C'; ctx.fill();
+  ctx.save(); ctx.clip();
+  ctx.fillStyle = 'rgba(255,255,255,0.08)'; ctx.fillRect(x - w * 0.36, y - h, w * 0.15, h);
+  ctx.fillStyle = 'rgba(0,0,0,0.4)'; ctx.fillRect(x + w * 0.24, y - h, w * 0.3, h);
+  clawSlashes(ctx, x - w * 0.02, y - h * 0.56, w * 0.8, h * 0.5, claw);
+  // silver rims
+  ctx.fillStyle = '#CDD2DA'; ctx.fillRect(x - w / 2, y - h - 2, w, h * 0.09 + 2);
+  ctx.fillStyle = '#8F97A3'; ctx.fillRect(x - w / 2, y - h + h * 0.075, w, h * 0.02);
+  ctx.fillStyle = '#B9BFC9'; ctx.fillRect(x - w / 2, y - h * 0.065, w, h * 0.065);
+  ctx.fillStyle = 'rgba(255,255,255,0.55)'; ctx.fillRect(x - w * 0.34, y - h - 2, w * 0.1, h * 0.09 + 2);
+  ctx.restore();
+  smallCaps(ctx, 'MONSTER', x - w * 0.02, y - h * 0.2, h * 0.12, 'BebasNeue', '#F2F2F2', w * 0.8);
+  if (crush) {
+    ctx.strokeStyle = 'rgba(255,255,255,0.28)'; ctx.lineWidth = Math.max(1.5, h * 0.018);
+    ctx.beginPath(); ctx.moveTo(x - w * 0.3, y - h * 0.5); ctx.lineTo(x + w * 0.05, y - h * 0.56); ctx.lineTo(x + w * 0.3, y - h * 0.47); ctx.stroke();
+  }
+  ctx.beginPath(); body(); ctx.strokeStyle = INK; ctx.lineWidth = lw; ctx.stroke();
+}
+function fuelCan(ctx, x, y, h, label, color, crush = 0, side = 1) {
+  const w = h * 0.46, lw = Math.min(LW, Math.max(2, h * 0.05));
+  const body = () => canBody(ctx, x, y, w, h, crush, side);
   ctx.beginPath(); body(); ctx.fillStyle = '#1A1B1F'; ctx.fill();
   ctx.save(); ctx.clip();
   ctx.fillStyle = color; ctx.fillRect(x - w / 2, y - h * 0.82, w, h * 0.62);
@@ -1592,13 +1688,48 @@ export function drawCan(ctx, x, y, h, label = 'GAMER FUEL', color = NEON) {
   ctx.fillStyle = 'rgba(0,0,0,0.2)'; ctx.fillRect(x + w * 0.24, y - h, w * 0.3, h);
   ctx.fillStyle = '#C9CED6'; ctx.fillRect(x - w / 2, y - h, w, h * 0.09); ctx.fillRect(x - w / 2, y - h * 0.07, w, h * 0.07);
   ctx.restore();
-  // bolt
   ctx.beginPath(); ctx.moveTo(x + w * 0.1, y - h * 0.79); ctx.lineTo(x - w * 0.18, y - h * 0.66); ctx.lineTo(x - w * 0.01, y - h * 0.645); ctx.lineTo(x - w * 0.1, y - h * 0.53); ctx.lineTo(x + w * 0.2, y - h * 0.68); ctx.lineTo(x + w * 0.03, y - h * 0.69); ctx.closePath();
   ctx.fillStyle = '#141413'; ctx.fill();
   const words = String(label || '').split(/\s+/).filter(Boolean);
   const fs = h * 0.125;
   for (let i = 0; i < words.length && i < 2; i++) text(ctx, words[i], x, y - h * (0.43 - i * 0.13), fs, 'Anton', '#141413', w * 0.84);
   ctx.beginPath(); body(); ctx.strokeStyle = INK; ctx.lineWidth = lw; ctx.stroke();
+}
+// (x,y) = bottom center, h = height. label 'MONSTER' -> matte black can with neon claw tears.
+export function drawCan(ctx, x, y, h, label = 'GAMER FUEL', color = NEON) {
+  ctx.save();
+  ctx.lineJoin = 'round';
+  if (label === 'MONSTER') monsterCan(ctx, x, y, h, 0, 1, '#7CFF3A');
+  else fuelCan(ctx, x, y, h, label, color);
+  ctx.restore();
+}
+// pyramid of n empty cans on the floor y, bottom row centered on x; h = one can's height
+export function drawCanStack(ctx, x, y, h, n = 6, t = 0) {
+  n = Math.max(0, Math.floor(n || 0));
+  if (!n) return;
+  const w = h * 0.46, gap = w * 1.05;
+  let k = 1; while ((k * (k + 1)) / 2 < n) k++;
+  const rows = []; let left = n;
+  for (let r = k; r >= 1 && left > 0; r--) { const c = Math.min(r, left); rows.push(c); left -= c; }
+  ctx.save();
+  ctx.lineJoin = 'round';
+  ctx.fillStyle = 'rgba(20,20,19,0.16)'; ctx.beginPath(); ell(ctx, x, y - 2, (rows[0] * gap) / 2 + w * 0.3, h * 0.07); ctx.fill();
+  const last = rows.length - 1;
+  for (let r = 0; r < rows.length; r++) {
+    const c = rows[r];
+    for (let j = 0; j < c; j++) {
+      const hsh = hashStr(`${r}:${j}:${n}`);
+      const top = r === last;
+      const crush = top && (hsh % 3 !== 0) ? 0.55 + (hsh % 5) * 0.08 : 0;
+      let tilt = ((hsh % 7) - 3) * 0.006 + (r === 1 && j === 0 ? -0.05 : 0);
+      if (top) tilt += (j % 2 ? 0.07 : -0.06) + Math.sin(t * 2.3 + j) * 0.02;
+      const cx = x + (j - (c - 1) / 2) * gap + ((hsh >>> 4) % 5 - 2) * w * 0.015;
+      const cy = y - r * h * 0.985 + (crush ? h * 0.04 : 0);
+      ctx.save(); ctx.translate(cx, cy); ctx.rotate(tilt);
+      monsterCan(ctx, 0, 0, crush ? h * 0.9 : h, crush, hsh % 2 ? 1 : -1, '#7CFF3A');
+      ctx.restore();
+    }
+  }
   ctx.restore();
 }
 
@@ -1661,4 +1792,89 @@ export function drawHeart(ctx, x, y, r, color = PINK) {
   ctx.lineJoin = 'round'; ctx.strokeStyle = INK; ctx.lineWidth = Math.min(LW, Math.max(1.5, r * 0.16)); ctx.stroke();
   ctx.fillStyle = 'rgba(255,255,255,0.6)'; ctx.beginPath(); ell(ctx, x - r * 0.45, y - r * 0.4, r * 0.2, r * 0.13, -0.6); ctx.fill();
   ctx.restore();
+}
+
+// ------------------------------------------------------------------ plush shark (Blahaj-style easter egg)
+// (x,y) = body center, ~260 px nose-to-tail at s=1, head faces +x. o: { rot, flip, squish 0..1, peek 0..1 }
+export function drawBlahaj(ctx, x, y, s = 1, t = 0, o = {}) {
+  const rot = Number.isFinite(o.rot) ? o.rot : 0, flip = !!o.flip;
+  const sq = clamp(Number.isFinite(o.squish) ? o.squish : 0, 0, 1), peek = clamp(Number.isFinite(o.peek) ? o.peek : 0, 0, 1);
+  const B = '#5E8EB5', B_S = '#4A7599', B_L = '#7AA5C9', W = '#F7F8FA', W_S = '#D5DCE5', PK = '#F58FA8';
+  const prevFlip = FLIP;
+  ctx.save();
+  try {
+    ctx.translate(x, y);
+    ctx.rotate(rot);
+    ctx.scale(flip ? -s : s, s);
+    FLIP = prevFlip !== flip;
+    ctx.scale(1 + 0.08 * sq, 1 - 0.2 * sq); // hug squash
+    ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+    if (peek > 0) { ctx.beginPath(); ctx.rect(-150 + 190 * peek, -220, 420, 440); ctx.clip(); }
+    const wig = Math.sin(t * 2.1);
+    ctx.rotate(wig * 0.03);
+    const tailA = Math.sin(t * 2.7) * 0.16;
+    // tail fin (behind body), swishing
+    const tail = () => {
+      ctx.moveTo(-78, -18);
+      ctx.bezierCurveTo(-98, -32, -116, -56, -128, -74);
+      ctx.quadraticCurveTo(-146, -84, -146, -60);
+      ctx.bezierCurveTo(-144, -36, -130, -14, -120, 0);
+      ctx.bezierCurveTo(-128, 12, -136, 28, -138, 44);
+      ctx.quadraticCurveTo(-140, 62, -124, 54);
+      ctx.bezierCurveTo(-108, 42, -92, 28, -78, 18);
+      ctx.closePath();
+    };
+    ctx.save(); ctx.translate(-86, 0); ctx.rotate(tailA); ctx.translate(86, 0);
+    shape(ctx, tail, B, B_S, 5, 6);
+    ctx.restore();
+    // dorsal fin + far pectoral fin (behind body)
+    const dorsal = () => { ctx.moveTo(-26, -50); ctx.bezierCurveTo(-28, -76, -34, -96, -40, -110); ctx.quadraticCurveTo(-34, -122, -20, -112); ctx.bezierCurveTo(2, -96, 22, -78, 32, -60); ctx.closePath(); };
+    shape(ctx, dorsal, B, B_S, 6, 4);
+    const pec = (bx, by, tx, ty) => () => { ctx.moveTo(bx - 22, by - 8); ctx.bezierCurveTo(bx - 28, by + 20, tx - 14, ty - 8, tx - 4, ty + 2); ctx.quadraticCurveTo(tx + 8, ty + 10, tx + 18, ty - 4); ctx.bezierCurveTo(bx + 14, by + 24, bx + 22, by + 10, bx + 22, by - 8); ctx.closePath(); };
+    shape(ctx, pec(34, 46, 10 + wig * 2, 84), B_S, null, 0, 0);
+    // body: chunky plush torpedo with a blunt snout
+    const body = () => {
+      ctx.moveTo(124, 4);
+      ctx.bezierCurveTo(122, -40, 86, -68, 34, -68);
+      ctx.bezierCurveTo(-12, -68, -56, -50, -88, -22);
+      ctx.quadraticCurveTo(-100, -4, -88, 18);
+      ctx.bezierCurveTo(-56, 48, -6, 66, 44, 64);
+      ctx.bezierCurveTo(96, 62, 126, 42, 124, 4);
+      ctx.closePath();
+    };
+    ctx.beginPath(); body(); ctx.fillStyle = B; ctx.fill();
+    ctx.save(); ctx.clip();
+    const bellyLine = () => { ctx.moveTo(132, -4); ctx.bezierCurveTo(104, 6, 60, 6, 0, 8); ctx.bezierCurveTo(-40, 9, -74, 2, -106, -6); };
+    ctx.beginPath(); bellyLine(); ctx.lineTo(-106, 100); ctx.lineTo(132, 100); ctx.closePath(); ctx.fillStyle = W; ctx.fill();
+    // plush shading: soft top highlight, shadow along the underside
+    ctx.fillStyle = 'rgba(255,255,255,0.22)'; ctx.beginPath(); ell(ctx, 26, -48, 74, 13, -0.04); ctx.fill();
+    ctx.translate(FLIP ? -6 : 6, -11);
+    ctx.beginPath(); ctx.rect(-170, -130, 340, 260); body(); ctx.fillStyle = 'rgba(70,95,125,0.22)'; ctx.fill('evenodd');
+    ctx.restore();
+    // stitch seam along the belly line
+    ctx.save(); ctx.beginPath(); body(); ctx.clip();
+    ctx.setLineDash([7, 6]); ctx.beginPath(); bellyLine(); ctx.strokeStyle = 'rgba(60,85,115,0.55)'; ctx.lineWidth = 2.4; ctx.stroke(); ctx.setLineDash([]);
+    ctx.restore();
+    ctx.beginPath(); body(); ctx.strokeStyle = INK; ctx.lineWidth = LW; ctx.stroke();
+    // gills
+    ctx.strokeStyle = 'rgba(40,60,85,0.5)'; ctx.lineWidth = 2.6; ctx.beginPath();
+    for (const gx of [50, 40, 30]) { ctx.moveTo(gx + 3, -30); ctx.quadraticCurveTo(gx - 4, -14, gx + 1, 0); }
+    ctx.stroke();
+    // mouth: wide, slightly open smile with a pink inside
+    const mo = () => { ctx.moveTo(123, 10); ctx.quadraticCurveTo(102, 28, 72, 22); ctx.quadraticCurveTo(96, 44 + wig, 120, 24); ctx.closePath(); };
+    ctx.beginPath(); mo(); ctx.fillStyle = PK; ctx.fill(); ctx.strokeStyle = INK; ctx.lineWidth = 4; ctx.stroke();
+    // eye: black bead, happy squint when squeezed
+    if (sq > 0.6) {
+      ctx.beginPath(); ctx.moveTo(72, -14); ctx.quadraticCurveTo(81, -28, 90, -14); ctx.strokeStyle = INK; ctx.lineWidth = 4.5; ctx.stroke();
+    } else {
+      ctx.fillStyle = INK; ctx.beginPath(); circ(ctx, 81, -17, 9); ctx.fill();
+      ctx.fillStyle = WHITE; ctx.beginPath(); circ(ctx, 78, -20, 3); ctx.fill();
+    }
+    ctx.fillStyle = 'rgba(255,140,170,0.45)'; ctx.beginPath(); ell(ctx, 96, 2, 10, 5.5); ctx.fill();
+    // near pectoral fin (front)
+    shape(ctx, pec(58, 48, 32 - wig * 2, 94), B, B_S, 4, 5);
+  } finally {
+    FLIP = prevFlip;
+    ctx.restore();
+  }
 }

@@ -88,6 +88,7 @@ function drawFinale(ctx, t, S, CH) {
     txt(ctx, 'BY THE WAY!', 0, 110, { fam: 'Anton', size: 170, color: C.blue, align: 'center', base: 'middle', stroke: C.ink, sw: 16, shadow: { color: C.ink, dx: 12, dy: 12 }, track: 4 });
     ctx.restore();
   }
+  if (t > chant && CH.drawBlahaj) { const q = (t - chant) / 7; CH.drawBlahaj(ctx, lerp(-220, W + 220, q), 660 - Math.abs(Math.sin(t * 6)) * 40, 0.6, t, { rot: Math.sin(t * 5) * 0.25 }); } // easter egg: crowd-surfing
   if (t > L(6)) {
     const k = pop(t, L(6) + 1.8, 0.4);
     ctx.save(); ctx.translate(W / 2, 720); ctx.scale(k, k);
@@ -107,11 +108,11 @@ const CREDITS = [
   ['role', 'goblin', 'Wiki Goblin', 'emotional support'], ['role', 'gentoo', 'Gentoo Wizard', 'still compiling'],
   ['role', 'lfs', 'LFS Ghost', 'built its own compiler'], ['role', 'nix', 'NixOS Enjoyer', 'declaratively correct'],
   ['role', 'winupdate', 'Windows Update', 'antagonist (scheduled)'], ['role', 'tux', 'Tux', 'just happy to be here'],
-  ['role', 'haiku', 'Haiku 4.5', 'poetry, 5-7-5'], ['role', 'sonnet', 'Sonnet 5', 'poetry, 2 of 14 lines'], ['role', 'fable', 'Fable 5.1', 'moral of the story'], ['gap'],
+  ['role', 'haiku', 'Haiku 4.5', 'poetry, 5-7-5'], ['role', 'sonnet', 'Sonnet 5', 'poetry, 2 of 14 lines'], ['role', 'fable', 'Fable 5.1', 'moral of the story'], ['role', 'blahaj', 'Blåhaj', 'itself (uncredited)'], ['role', 'monster', 'Monster', 'hydration (disputed)'], ['gap'],
   ['head', 'FACT CHECK'], ['text', 'Install steps follow the official Arch Installation Guide.'], ['text', 'Read the guide, not this video: wiki.archlinux.org'],
   ['text', 'Partial upgrades are unsupported: see "System maintenance".'], ['text', 'Five principles: see the "Arch Linux" wiki page.'], ['gap'],
   ['head', 'MADE WITH'], ['text', 'every frame drawn in code (Node.js + Skia canvas)'], ['text', 'voices: Kokoro TTS · music + sfx: synthesized from scratch in numpy'], ['text', 'assembled with ffmpeg · zero stock footage'], ['gap'],
-  ['text', 'No partitions were harmed in the making of this film.'], ['text', 'Dedicated to everyone who uses Arch, by the way.'], ['text', 'Drink water.'],
+  ['text', 'Monster and Blåhaj did not sponsor this. We just like them.'], ['text', 'No partitions were harmed in the making of this film.'], ['text', 'Dedicated to everyone who uses Arch, by the way.'], ['text', 'Drink water.'],
 ];
 function drawCredits(ctx, t, S, CH) {
   ctx.fillStyle = '#141413'; ctx.fillRect(0, 0, W, H);
@@ -128,8 +129,10 @@ function drawCredits(ctx, t, S, CH) {
         if (k === 'head') txt(ctx, row[1], W / 2, y, { fam: 'Anton', size: 48, color: C.blue, align: 'center', track: 6 });
         if (k === 'text') txt(ctx, row[1], W / 2, y, { fam: 'Nunito-800', size: 36, color: C.cream, align: 'center' });
         if (k === 'role') {
-          CH.drawCharacter(ctx, row[1], { x: 610, y: y + 30, s: 0.2, t, mood: 'happy' });
-          txt(ctx, row[2], 700, y, { fam: 'Nunito-900', size: 40, color: CH.CHAR_INFO[row[1]]?.color || C.cream });
+          if (row[1] === 'blahaj') { if (CH.drawBlahaj) CH.drawBlahaj(ctx, 610, y - 10, 0.28, t); }
+          else if (row[1] === 'monster') { if (CH.drawCan) CH.drawCan(ctx, 610, y + 25, 70, 'MONSTER', '#111'); }
+          else CH.drawCharacter(ctx, row[1], { x: 610, y: y + 30, s: 0.2, t, mood: 'happy' });
+          txt(ctx, row[2], 700, y, { fam: 'Nunito-900', size: 40, color: CH.CHAR_INFO[row[1]]?.color || (row[1] === 'blahaj' ? '#7FB2D9' : row[1] === 'monster' ? '#7CFF3A' : C.cream) });
           txt(ctx, row[3], 1180, y, { fam: 'Nunito-800', size: 32, color: '#A29E96' });
         }
       }
@@ -166,6 +169,7 @@ function drawPost(ctx, t, S, CH) {
   txt(ctx, `${Math.round(p * 100)}%`, 1320, 395, { fam: 'JBM-800', size: 34, color: '#E8E2F8', align: 'right' });
   const A = actor(ctx, CH, S, t);
   A('gentoo', { x: 800, y: 1000, s: 1.1, mood: reset ? 'sad' : 'happy', look: 0.4 });
+  if (reset && CH.drawBlahaj) CH.drawBlahaj(ctx, 1030, 930, 0.55, t, { squish: 0.3, rot: -0.15 }); // easter egg: emotional support shark
 }
 
 export default {

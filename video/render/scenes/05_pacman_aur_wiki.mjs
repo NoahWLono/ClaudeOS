@@ -9,7 +9,7 @@ function pacEvents(S) {
     { at: L(0) + 1.4, cmd: 'sudo pacman -Syu', cps: 16 },
     { at: L(0) + 2.6, out: ':: Synchronizing package databases...', color: DIM },
     { at: L(0) + 2.9, out: ':: Starting full system upgrade...', color: DIM },
-    { at: L(0) + 3.3, out: 'Packages (23)  firefox-143.0-1  mesa-1:25.2.3-1  linux-6.18.9...', color: '#FFFFFF' },
+    { at: L(0) + 3.3, out: 'Packages (23)  linux-7.2.2.arch1-1  mesa  firefox  systemd-261...' + '', color: '#FFFFFF' },
     { at: L(0) + 3.8, out: ':: Proceed with installation? [Y/n] y', color: OK },
   ];
 }
@@ -61,7 +61,7 @@ function graph(ctx, t, S) {
 function candyBar(ctx, t, x, y, t0) {
   const p = clamp((t - t0) / 5);
   const n = 28, pos = Math.floor(p * n);
-  txt(ctx, 'linux-6.18.9   147.2 MiB  12.1 MiB/s', x, y, { fam: 'JBM-800', size: 30, color: C.termFg });
+  txt(ctx, 'linux-7.2.2   152.4 MiB  12.1 MiB/s', x, y, { fam: 'JBM-800', size: 30, color: C.termFg });
   const bx = x, by = y + 60, cw = 26;
   txt(ctx, '[', bx - 18, by + 12, { fam: 'JBM-800', size: 40, color: C.termFg });
   for (let i = 0; i < n; i++) {
@@ -310,7 +310,7 @@ function drawWiki(ctx, t, S, CH) {
     txt(ctx, `tabs open: ${Math.floor(1 + p * p * 211)}`, -60, -120, { fam: 'JBM-800', size: 34, color: C.yellow });
     const items = [['tiling WM configured', true, 0.25], ['dotfiles rewritten', true, 0.45], ['learned how DNS works', true, 0.65], ['fixed the audio', false, 0.9]];
     items.forEach(([s, ok, f], i) => { if (t > hf + d * f) txt(ctx, (ok ? '✓ ' : '✗ ') + s, -60, -50 + i * 56, { fam: 'Nunito-900', size: 32, color: ok ? OK : C.red }); });
-    txt(ctx, 'water: 0 glasses 💧', -360, 215, { fam: 'Nunito-900', size: 28, color: '#7FC8F8' });
+    txt(ctx, 'Monster: 3 cans   ·   water: 0 glasses 💧', -360, 215, { fam: 'Nunito-900', size: 28, color: '#7FC8F8' });
     ctx.restore();
   }
   A('wiki', { x: 560, y: 960, s: 1.15, mood: dumping || S.speaking('wiki', t) ? 'excited' : 'happy', prop: t < L(1) ? 'book' : (t > hf ? 'tabs' : null), look: 0.3 });

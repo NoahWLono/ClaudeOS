@@ -5,7 +5,7 @@ import { W, H, C, clamp, lerp, ease, prog, pop, txt, rr, panel, actor, sectionCa
 const CARDS = [
   { id: 'femboy', name: 'socksd', line: 1, stats: [['SOCKS', 1, 'MAX'], ['CUTENESS', 0.99], ['UPTIME', 0.999, '99.9%']] },
   { id: 'wiki', name: 'WIKI ENJOYER', line: 2, stats: [['WIKI READ', 1, 'ALL x2'], ['FOCUS', 1, 'HYPER'], ['SMALL TALK', 0.12]] },
-  { id: 'gamer', name: 'PACMANSLAYER', line: 3, stats: [['FPS', 0.95, '240'], ['RGB', 1, 'YES'], ['SLEEP', 0.08]] },
+  { id: 'gamer', name: 'PACMANSLAYER', line: 3, stats: [['MONSTER', 1, '4 CANS'], ['RGB', 1, 'YES'], ['SLEEP', 0.08]] },
   { id: 'claude', name: 'OPUS 5.5', line: 4, stats: [['CONTEXT', 1, 'HUGE'], ['OPINIONS', 0.92], ['HANDS', 0, '0']] },
 ];
 const LOCKED = ['gentoo', 'lfs', 'nix', 'winupdate'];

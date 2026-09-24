@@ -23,6 +23,7 @@ function drawGaming(ctx, t, S, CH) {
   ctx.globalAlpha = 1;
   ctx.strokeStyle = 'rgba(57,255,20,0.12)'; ctx.lineWidth = 2;
   for (let x = 0; x < W; x += 80) { ctx.beginPath(); ctx.moveTo(x, 0); ctx.lineTo(x, H); ctx.stroke(); }
+  if (CH.drawCanStack) CH.drawCanStack(ctx, 200, 1000, 78, 10, t);
   const A = actor(ctx, CH, S, t);
   // handheld
   const kh = ease.back(prog(t, L(1) + 0.4, 0.5)) * (1 - prog(t, L(4) - 0.2, 0.3));
@@ -74,7 +75,7 @@ function drawGaming(ctx, t, S, CH) {
     txt(ctx, 'still refuse Linux. Check before you commit.', 0, 72, { fam: 'Nunito-900', size: 36, color: C.ink, align: 'center' });
     ctx.restore();
   }
-  A('gamer', { x: 480, y: 950, s: 1.1, mood: t > L(2) && t < btw + 1 ? 'shock' : t > L(7) ? 'excited' : S.speaking('gamer', t) ? 'excited' : 'happy', prop: t > L(1) && t < L(4) ? 'handheld' : 'controller', look: 0.5 });
+  A('gamer', { x: 480, y: 950, s: 1.1, mood: t > L(2) && t < btw + 1 ? 'shock' : t > L(7) ? 'excited' : S.speaking('gamer', t) ? 'excited' : 'happy', prop: t > L(7) ? 'monster' : t > L(1) && t < L(4) ? 'handheld' : 'controller', look: 0.5 });
   A('claude', { x: 1520, y: 950, s: 1.0, mood: t > btw ? 'smug' : 'happy', look: -0.6 });
   if (t > btw) {
     const q = ease.out(prog(t, btw, 0.6));
@@ -128,8 +129,8 @@ function drawWin(ctx, t, S, CH) {
 
 // ---------------- rice ----------------
 const FETCH = [
-  ['socksd@archbtw', C.pink], ['--------------', '#B9A5D6'], ['OS', 'Arch Linux x86_64'], ['Kernel', '6.18.9-arch1-1'], ['Uptime', '47 days (never reboots)'], ['Packages', '1337 (pacman)'],
-  ['Shell', 'zsh 5.9'], ['WM', 'Hyprland'], ['Terminal', 'kitty'], ['Theme', 'pastel, obviously'], ['CPU', 'yes'], ['Socks', '2 (striped)'],
+  ['socksd@archbtw', C.pink], ['--------------', '#B9A5D6'], ['OS', 'Arch Linux x86_64'], ['Kernel', '7.2.2-arch1-1'], ['Uptime', '47 days (never reboots)'], ['Packages', '1337 (pacman)'],
+  ['Shell', 'zsh 5.9.2'], ['WM', 'Hyprland'], ['Terminal', 'kitty'], ['Theme', 'pastel, obviously'], ['CPU', 'yes'], ['Socks', '2 (striped)'], ['Plush', 'blåhaj (1)'],
 ];
 const ASCII = ['        /\\', '       /  \\', '      /    \\', '     /  /\\  \\', '    /  /  \\  \\', '   /__/    \\__\\'];
 function win(ctx, x, y, w, h, title, t) {
@@ -161,7 +162,7 @@ function desktop(ctx, t, S, CH) {
     txt(ctx, k + ':', 470, y, { fam: 'JBM-800', size: 30, color: C.pink });
     txt(ctx, v, 650, y, { fam: 'JBM-800', size: 30, color: '#F3EEFF' });
   });
-  [C.red, C.orange, C.yellow, C.green, C.teal, C.blue, C.lav, C.pink].forEach((c, i) => { ctx.fillStyle = c; ctx.fillRect(470 + i * 60, 740, 56, 36); });
+  [C.red, C.orange, C.yellow, C.green, C.teal, C.blue, C.lav, C.pink].forEach((c, i) => { ctx.fillStyle = c; ctx.fillRect(470 + i * 60, 770, 56, 30); });
   // nvim window
   win(ctx, 1050, 80, 840, 440, 'nvim ~/.config/hypr/hyprland.conf', t);
   const code = [['general {', '#D19CF5'], ['  gaps_in = 8', '#F3EEFF'], ['  gaps_out = 16', '#F3EEFF'], ['  col.active_border = rgb(ff8fc7)', '#F5C28A'], ['}', '#D19CF5'], ['# do not question the socks', '#8C7FA8']];
@@ -173,7 +174,7 @@ function desktop(ctx, t, S, CH) {
 function drawRice(ctx, t, S, CH) {
   const L = S.L, m = S.tag('morph');
   ctx.fillStyle = '#050608'; ctx.fillRect(0, 0, W, H);
-  txt(ctx, 'Arch Linux 6.18.9-arch1-1 (tty1)', 120, 330, { fam: 'JBM-400', size: 44, color: '#C8D3DE' });
+  txt(ctx, 'Arch Linux 7.2.2-arch1-1 (tty1)', 120, 330, { fam: 'JBM-400', size: 44, color: '#C8D3DE' });
   txt(ctx, 'archbtw login: socksd', 120, 440, { fam: 'JBM-800', size: 64, color: '#FFFFFF' });
   txt(ctx, '[socksd@archbtw ~]$ Hyprland', 120, 540, { fam: 'JBM-800', size: 44, color: C.pink, alpha: prog(t, m - 0.8, 0.2) });
   scanlines(ctx, 0.2, 4);

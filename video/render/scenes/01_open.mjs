@@ -1,11 +1,11 @@
 import { W, H, C, clamp, lerp, ease, prog, pop, txt, termRows, typingCues, scanlines, vignette, sunburst, halftone, banner, stamp, actor, rr, rng } from '../lib.mjs';
 
 const BOOT = [
-  '[    0.000000] Linux version 6.18.9-arch1-1 (linux@archlinux)',
+  '[    0.000000] Linux version 7.2.2-arch1-1 (linux@archlinux)',
   '[    0.000000] Command line: initrd=\\initramfs-linux.img root=UUID=4f1c rw',
   '[    0.112233] ACPI: Core revision 20250404',
   '[    0.448151] smpboot: Allowing 16 CPUs, 0 hotplug CPUs',
-  '[    1.337000] systemd[1]: systemd 258 running in system mode',
+  '[    1.337000] systemd[1]: systemd 261 running in system mode',
   '[    1.420420] systemd[1]: Detected architecture x86-64.',
   '[  OK  ] Reached target Opinions.',
   '[  OK  ] Started Claude Opus 5.5 Narration Daemon.',

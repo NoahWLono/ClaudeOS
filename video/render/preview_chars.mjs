@@ -1,5 +1,5 @@
 // preview_chars.mjs : contact sheets + timing for characters.mjs
-// usage: node preview_chars.mjs [sheet ...]   (sheets: lineup moods talk props detail small flip time; default all)
+// usage: node preview_chars.mjs [sheet ...]   (sheets: lineup moods talk props extras detail small flip time; default all)
 // env CHARS=/path/to/characters.mjs to preview a different copy; OUT=dir for output.
 import fs from 'fs';
 import path from 'path';
@@ -119,6 +119,34 @@ if (on('flip')) {
       drawCharacter(ctx, id, { x: cx, y: by, s: 0.6, t: T, flip: true, look: 1, sign: id === 'goblin' ? 'FLIPPED' : null, prop: id === 'gamer' ? 'can' : null });
       label(ctx, `${id} flip look=+1`, cx, by + 30, '#141413', 18);
     });
+  });
+}
+
+if (on('extras')) {
+  // Blahaj plush shark, Monster-style can, can pyramid, and the character props that use them
+  const { drawBlahaj, drawCan, drawCanStack } = C;
+  sheet('extras.png', 1920, 1260, '#F0EEE6', (ctx) => {
+    const L = (s, x, y) => label(ctx, s, x, y, '#141413', 18);
+    drawBlahaj(ctx, 180, 150, 1, T); L('blahaj', 180, 250);
+    drawBlahaj(ctx, 480, 150, 1, T + 1.3, { squish: 0.5 }); L('squish .5', 480, 250);
+    drawBlahaj(ctx, 780, 150, 1, T, { squish: 1 }); L('squish 1', 780, 250);
+    drawBlahaj(ctx, 1080, 150, 1, T + 0.6, { flip: true, rot: -0.25 }); L('flip + rot', 1080, 250);
+    // peek demos: the wall is drawn by the caller at the clip edge
+    for (const [i, pk] of [[0, 0.5], [1, 1]]) {
+      const cx = 1380 + i * 300, clipX = cx + (-150 + 190 * pk);
+      drawBlahaj(ctx, cx, 150, 1, T, { peek: pk });
+      ctx.fillStyle = '#B9A58A'; ctx.fillRect(clipX - 90, 40, 90, 200); ctx.strokeStyle = '#141413'; ctx.lineWidth = 5; ctx.strokeRect(clipX - 90, 40, 90, 200);
+      L(`peek ${pk}`, cx, 250);
+    }
+    drawCan(ctx, 110, 640, 200, 'MONSTER'); L('MONSTER h=200', 110, 670);
+    drawCan(ctx, 260, 640, 120, 'MONSTER'); drawCan(ctx, 330, 640, 60, 'MONSTER'); L('h=120 / 60', 290, 670);
+    drawCan(ctx, 440, 640, 160, 'GAMER FUEL', '#39FF14'); L('GAMER FUEL', 440, 670);
+    drawCanStack(ctx, 680, 640, 90, 3, T); L('stack n=3', 680, 670);
+    drawCanStack(ctx, 960, 640, 90, 6, T); L('stack n=6', 960, 670);
+    drawCanStack(ctx, 1320, 640, 80, 10, T); L('stack n=10', 1320, 670);
+    drawCanStack(ctx, 1700, 640, 60, 15, T); L('stack n=15', 1700, 670);
+    const row = [['femboy', { prop: 'blahaj' }], ['femboy', { prop: 'blahaj', mood: 'happy', flip: true }], ['gamer', { prop: 'monster', mood: 'excited' }], ['gamer', { prop: 'monster', flip: true }], ['gamer', { prop: 'can' }], ['femboy', { prop: 'blahaj', alpha: 0.5 }]];
+    row.forEach(([id, o], i) => { const cx = 170 + i * 316, by = 1170; baseline(ctx, cx - 140, cx + 140, by); drawCharacter(ctx, id, { x: cx, y: by, s: 0.9, t: T, ...o }); L(`${id} ${o.prop}${o.flip ? ' flip' : ''}${o.alpha ? ' a=.5' : ''}`, cx, by + 30); });
   });
 }
 

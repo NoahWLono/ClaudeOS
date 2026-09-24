@@ -1,9 +1,14 @@
 # I Use Arch, By The Way
 
-A ~12 minute first-principles propaganda film about Arch Linux, starring Claude Opus 5.5.
-Final render: `out/i-use-arch-btw.mp4` (12:17, 1080p30, H.264 two-pass at ~860 kb/s + AAC, -16 LUFS, 92 MB so it fits
-under GitHub's 100 MB file limit). Captions are burned in and also provided as `out/i-use-arch-btw.srt`.
-`./build.sh` produces a higher-bitrate (~207 MB) master before any recompression.
+A 17 minute first-principles propaganda film about Arch Linux, starring Claude Opus 5.5, ending in a
+real step-by-step install tutorial (23 steps, starts at 11:37). There are hidden Blåhaj sightings; Monster is not hidden.
+Final render: `out/i-use-arch-btw.mp4` (17:15, 1080p30, H.264 two-pass sized to stay under GitHub's 100 MB file
+limit, AAC, -16 LUFS, with chapter markers). Captions are burned in and also in `out/i-use-arch-btw.srt`.
+`./build.sh` also leaves a higher-bitrate master at `build/master.mp4`.
+
+The tutorial's commands were checked against the live Arch Wiki (Installation guide, systemd-boot,
+Microcode, USB flash installation medium, Sudo) and archlinux.org/download for the 2026.09.01 ISO.
+The wiki remains the source of truth; if this video and the wiki disagree, the wiki wins.
 
 Nothing here is stock footage or sampled audio:
 
@@ -34,9 +39,33 @@ node render/render.mjs still <sceneId> <sec>  # one frame
 node render/render.mjs timeline               # scene start times + cue list
 ```
 
-## Scenes
+## Chapters
 
-cold open, title, character select, the boot chain, the install (with a live speedrun timer),
-first boot, the hecklers (Gentoo, LFS, NixOS), the five principles, pacman and partial upgrades,
-the AUR, the Wiki, gaming, a Windows Update interlude, the rice, the Claude family group chat,
-the finale, credits, and a post-credits scene.
+```
+00:00 Cold open
+00:18 Title
+00:45 Choose your fighter
+01:06 Part 1: What even is a computer
+01:50 Part 2: The install (any%)
+03:43 First boot
+04:06 Objection! (Gentoo, LFS, NixOS)
+04:52 Part 3: The five principles
+05:55 Part 4: pacman and partial upgrades
+06:59 Part 5: The AUR
+07:34 Part 6: The Wiki (a special interest)
+08:43 Part 7: But can it game?
+09:31 Meanwhile, on Windows
+09:51 Part 8: The rice
+10:31 Intermission: the family group chat
+11:02 Finale
+11:37 TUTORIAL: before you start
+12:13 Tutorial 1-4: USB + boot
+12:58 Tutorial 5-8: live system
+13:34 Tutorial 9-12: partition, format, mount
+14:18 Tutorial 13-14: pacstrap + fstab
+14:40 Tutorial 15-19: configure
+15:18 Tutorial 20-21: bootloader + network
+15:51 Tutorial 22-23: reboot + first steps
+16:33 Credits
+17:07 Post-credits
+```

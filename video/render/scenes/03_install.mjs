@@ -8,11 +8,11 @@ const OK = '#6BE675', DIM = '#7C8A99', YEL = '#FFD23F';
 
 const EVENTS = {
   install_net: (L, E) => [
-    out(0.2, 'Arch Linux 6.18.9-arch1-1 (tty1)', DIM), out(0.25, 'archiso login: root (automatic login)', DIM), out(0.3, ''),
+    out(0.2, 'Arch Linux 7.2.2-arch1-1 (tty1)', DIM), out(0.25, 'archiso login: root (automatic login)', DIM), out(0.3, ''),
     cmd(L(1) + 1.6, 'cat /sys/firmware/efi/fw_platform_size', E(1) + 0.2), out(L(2) - 0.1, '64', OK),
     cmd(L(3) + 1.8, 'iwctl station wlan0 connect "Pretty Fly for a WiFi"', L(3) + 3.6), out(L(3) + 3.7, 'Passphrase: ****************', DIM),
-    cmd(L(3) + 4.0, 'ping -c 2 archlinux.org', E(3) + 0.1),
-    out(E(3) + 0.3, '64 bytes from archlinux.org: icmp_seq=1 ttl=52 time=11.8 ms', OK), out(E(3) + 0.9, '64 bytes from archlinux.org: icmp_seq=2 ttl=52 time=12.1 ms', OK),
+    cmd(L(3) + 4.0, 'ping -c 2 ping.archlinux.org', E(3) + 0.1),
+    out(E(3) + 0.3, '64 bytes from ping.archlinux.org: icmp_seq=1 ttl=52 time=11.8 ms', OK), out(E(3) + 0.9, '64 bytes from ping.archlinux.org: icmp_seq=2 ttl=52 time=12.1 ms', OK),
   ],
   install_disk: (L, E) => [
     cmd(L(0) + 1.2, 'fdisk /dev/nvme0n1', L(0) + 2.2),
@@ -36,7 +36,7 @@ const EVENTS = {
     cmd(L(3) + 0.2, 'pacstrap -K /mnt neovim', E(3) + 0.1), out(E(3) + 0.3, '(1/1) installing neovim ...................... [######] 100%', OK),
   ],
   install_chroot: (L, E) => [
-    cmd(L(0) + 0.8, 'genfstab -U /mnt >> /mnt/etc/fstab', L(0) + 2.4), cmd(L(0) + 2.6, 'arch-chroot /mnt', E(0) + 0.2),
+    cmd(L(0) + 0.8, 'genfstab -U /mnt >> /mnt/etc/fstab', L(0) + 2.4), cmd(L(0) + 2.6, 'arch-chroot -S /mnt', E(0) + 0.2),
     { at: E(0) + 0.3, prompt: P1 },
     cmd(L(2) + 0.2, 'ln -sf /usr/share/zoneinfo/Europe/Helsinki /etc/localtime', L(2) + 1.6), out(L(2) + 1.7, '# (Linus says hi)', DIM),
     cmd(L(2) + 1.9, 'locale-gen', L(2) + 2.4), out(L(2) + 2.5, 'Generating locales...  en_US.UTF-8... done', DIM),
@@ -145,7 +145,7 @@ function drawInstall(ctx, t, S, CH) {
   const events = allEvents(TL, S.id);
   const st = termRows(events, t, { prompt: P0 });
   const panic = S.id === 'install_chroot' && t > L(4) && t < L(6) + 0.3;
-  drawTerminal(ctx, 40, 110, 1250, 710, st, t, { fs: 25, title: S.id === 'install_chroot' && t > E(0) + 0.3 && t < L(7) + 0.7 ? 'arch-chroot /mnt' : 'tty1 : archiso', bg: panic ? '#2A0C10' : C.term });
+  drawTerminal(ctx, 40, 110, 1250, 710, st, t, { fs: 25, title: S.id === 'install_chroot' && t > E(0) + 0.3 && t < L(7) + 0.7 ? 'arch-chroot -S /mnt' : 'tty1 : archiso', bg: panic ? '#2A0C10' : C.term });
   if (S.id === 'install_disk') diskDiagram(ctx, t, L, E);
   if (S.id === 'install_pacstrap') {
     // highlight the big command
@@ -170,6 +170,7 @@ function drawInstall(ctx, t, S, CH) {
     }
   }
   drawTimer(ctx, TL, G, 1320, 110, 560);
+  if (CH.drawBlahaj) CH.drawBlahaj(ctx, 1818, 104, 0.34, t, { rot: -0.08 }); // easter egg
   const A = actor(ctx, CH, S, t);
   const fMood = panic ? 'shock' : S.speaking('femboy', t) ? 'happy' : 'smug';
   A('claude', { x: 1450, y: 850, s: 0.62, mood: 'happy', look: -0.8, phase: 1.3 });
@@ -186,7 +187,7 @@ function drawFirstBoot(ctx, t, S, CH) {
     const n = Math.floor(clamp((t - 0.4) / 1.6) * lines.length);
     lines.slice(0, n).forEach((l, i) => { const y = 140 + i * 50; txt(ctx, '[', 80, y, { fam: 'JBM-400', size: 32, color: '#C8D3DE' }); txt(ctx, 'OK', 138, y, { fam: 'JBM-800', size: 32, color: OK }); txt(ctx, ']' + l.slice(8), 234, y, { fam: 'JBM-400', size: 32, color: '#C8D3DE' }); });
   } else {
-    txt(ctx, 'Arch Linux 6.18.9-arch1-1 (tty1)', 120, 330, { fam: 'JBM-400', size: 44, color: '#C8D3DE' });
+    txt(ctx, 'Arch Linux 7.2.2-arch1-1 (tty1)', 120, 330, { fam: 'JBM-400', size: 44, color: '#C8D3DE' });
     txt(ctx, 'archbtw login: ', 120, 440, { fam: 'JBM-800', size: 64, color: '#FFFFFF' });
     if (Math.floor(t * 2) % 2 === 0) { ctx.fillStyle = C.orange; ctx.fillRect(700, 388, 36, 64); }
   }
