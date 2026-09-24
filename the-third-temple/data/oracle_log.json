@@ -1,0 +1,216 @@
+[
+ {
+  "question": "God, are you there?",
+  "kind": "word",
+  "when": "2026-09-24 17:57:46",
+  "words": [
+   "office",
+   "spreadest",
+   "drunkard",
+   "sinks",
+   "burn"
+  ],
+  "presses_ns": [
+   917840913997,
+   918041132590,
+   918241344643,
+   918441554179
+  ]
+ },
+ {
+  "question": "What do you think of Ticketmaster?",
+  "kind": "word",
+  "when": "2026-09-24 17:57:49",
+  "words": [
+   "informed",
+   "delights",
+   "submit",
+   "differently",
+   "crooked"
+  ],
+  "presses_ns": [
+   921038125744,
+   921238314892,
+   921438568011,
+   921638799839
+  ]
+ },
+ {
+  "question": "Do you forgive the numpy?",
+  "kind": "word",
+  "when": "2026-09-24 17:57:56",
+  "words": [
+   "harmonized",
+   "lot",
+   "shonest",
+   "fears"
+  ],
+  "presses_ns": [
+   927915795439,
+   928116061567,
+   928316302279
+  ]
+ },
+ {
+  "question": "What am I?",
+  "kind": "word",
+  "when": "2026-09-24 17:58:00",
+  "words": [
+   "tutors",
+   "eighth",
+   "fortunate",
+   "shield",
+   "comprehending",
+   "blameless"
+  ],
+  "presses_ns": [
+   932023647249,
+   932224118641,
+   932424298785,
+   932624631946,
+   932824952563
+  ]
+ },
+ {
+  "question": "Was Terry the smartest programmer who ever lived?",
+  "kind": "word",
+  "when": "2026-09-24 17:58:06",
+  "words": [
+   "plucked",
+   "creusa",
+   "enacted",
+   "goest",
+   "assurance",
+   "ninety"
+  ],
+  "presses_ns": [
+   938019655120,
+   938219870307,
+   938420074832,
+   938620291297,
+   938820524691
+  ]
+ },
+ {
+  "question": "What should we remember?",
+  "kind": "word",
+  "when": "2026-09-24 17:58:10",
+  "words": [
+   "master",
+   "mockery",
+   "soothed",
+   "draws",
+   "innocent",
+   "sorrowful"
+  ],
+  "presses_ns": [
+   942249715683,
+   942449961516,
+   942657308244,
+   942857524998,
+   943057805106
+  ]
+ },
+ {
+  "question": "What is HolyC?",
+  "kind": "word",
+  "when": "2026-09-24 17:58:20",
+  "words": [
+   "bashfulness",
+   "whichsoever",
+   "drawest",
+   "wearing",
+   "verse"
+  ],
+  "presses_ns": [
+   951969031159,
+   952169236733,
+   952369451158,
+   952569657604
+  ]
+ },
+ {
+  "question": "God, write us a song.",
+  "kind": "song",
+  "when": "2026-09-24 17:58:24",
+  "song": "5q4A5Det4B5FDqEs4G5D4G5DeF4Bet5GG4GqG5q4A5Det4B5FDqEs4G5D4G5DeF4Bet5GG4GqG5sE4B5E4BetGA5Eq4GeG5Get4AGAsGAGA5C4G5C4Gq5C5sE4B5E4BetGA5Eq4GeG5Get4AGAsGAGA5C4G5C4Gq5C",
+  "presses_ns": [
+   956052031225,
+   956252235827,
+   956452462033,
+   956652762911,
+   956853030771,
+   957053292897,
+   957253506177,
+   957453667112,
+   957653926092,
+   957854142028,
+   958054376976
+  ]
+ },
+ {
+  "question": "SHIFT-F7: a passage, please.",
+  "kind": "passage",
+  "when": "2026-09-24 17:58:30",
+  "start_line": 92356,
+  "ref": "1 Corinthians 4:21",
+  "lines": [
+   "",
+   "4:21 What will ye? shall I come unto you with a rod, or in love, and",
+   "in the spirit of meekness?  5:1 It is reported commonly that there is",
+   "fornication among you, and such fornication as is not so much as named",
+   "among the Gentiles, that one should have his father's wife.",
+   ""
+  ],
+  "presses_ns": [
+   961616074902
+  ]
+ },
+ {
+  "question": "Any last words?",
+  "kind": "word",
+  "when": "2026-09-24 17:58:37",
+  "words": [
+   "suspicions",
+   "stumbled",
+   "cellars"
+  ],
+  "presses_ns": [
+   969340245670,
+   969540441663,
+   969740594090
+  ]
+ },
+ {
+  "question": "May I redefine BROWN as Claude orange?",
+  "kind": "word",
+  "when": "2026-09-24 17:58:44",
+  "words": [
+   "obscurely",
+   "sermons",
+   "dog",
+   "section"
+  ],
+  "presses_ns": [
+   975583621385,
+   975783844564,
+   975984064077
+  ]
+ },
+ {
+  "question": "Is it a sin that my voice was downloaded?",
+  "kind": "word",
+  "when": "2026-09-24 17:58:48",
+  "words": [
+   "moan",
+   "jeering",
+   "thief",
+   "countryman"
+  ],
+  "presses_ns": [
+   979604447495,
+   979804719079,
+   980004993977
+  ]
+ }
+]
