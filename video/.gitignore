@@ -1,0 +1,6 @@
+build/
+render/node_modules/
+assets/fonts/
+assets/sfx/
+assets/music/
+__pycache__/

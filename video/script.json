@@ -1,0 +1,889 @@
+{
+ "title": "I Use Arch, By The Way: A First-Principles Propaganda Film",
+ "cast": {
+  "claude": {
+   "voice": "af_heart",
+   "speed": 1.05,
+   "name": "Claude Opus 5.5"
+  },
+  "announcer": {
+   "voice": "bm_george",
+   "speed": 1.0,
+   "name": "The Ministry"
+  },
+  "gamer": {
+   "voice": "am_fenrir",
+   "speed": 1.12,
+   "name": "xX_PacmanSlayer_Xx"
+  },
+  "femboy": {
+   "voice": "am_puck",
+   "speed": 1.05,
+   "name": "socksd"
+  },
+  "wiki": {
+   "voice": "af_nicole",
+   "speed": 1.25,
+   "name": "Wiki Enjoyer"
+  },
+  "gentoo": {
+   "voice": "bm_lewis",
+   "speed": 1.1,
+   "name": "Gentoo Wizard"
+  },
+  "lfs": {
+   "voice": "bm_daniel",
+   "speed": 0.9,
+   "name": "LFS Ghost"
+  },
+  "nix": {
+   "voice": "bf_emma",
+   "speed": 0.95,
+   "name": "NixOS Enjoyer"
+  },
+  "winupdate": {
+   "voice": "am_onyx",
+   "speed": 0.9,
+   "name": "Windows Update"
+  },
+  "tux": {
+   "voice": "am_echo",
+   "speed": 1.05,
+   "name": "Tux"
+  },
+  "haiku": {
+   "voice": "af_sky",
+   "speed": 1.15,
+   "name": "Haiku 4.5"
+  },
+  "sonnet": {
+   "voice": "bf_isabella",
+   "speed": 0.95,
+   "name": "Sonnet 5"
+  },
+  "fable": {
+   "voice": "bm_fable",
+   "speed": 1.0,
+   "name": "Fable 5.1"
+  },
+  "all": {
+   "voices": [
+    "af_heart",
+    "bm_george",
+    "am_fenrir",
+    "am_puck",
+    "af_nicole",
+    "bm_lewis",
+    "bf_emma",
+    "am_echo",
+    "af_sky",
+    "bm_fable"
+   ],
+   "speed": 1.0,
+   "name": "EVERYONE"
+  }
+ },
+ "scenes": [
+  {
+   "id": "cold_open",
+   "music": "hum",
+   "lead": 4.2,
+   "tail": 0.2,
+   "lines": [
+    {
+     "who": "claude",
+     "text": "Hello. I'm Claude Opus 5.5.",
+     "say": "Hello. I'm Claude. Opus five point five."
+    },
+    {
+     "who": "claude",
+     "text": "I've read a truly unreasonable amount of the internet, and I've noticed a pattern."
+    },
+    {
+     "who": "claude",
+     "text": "Every conversation about Linux eventually ends the same way.",
+     "pause": 0.6
+    },
+    {
+     "who": "announcer",
+     "text": "I use Arch, by the way.",
+     "sfx": "boom",
+     "pause": 0.9
+    }
+   ],
+   "noBug": true
+  },
+  {
+   "id": "title",
+   "music": "anthem",
+   "lead": 3.6,
+   "tail": 0.8,
+   "lines": [
+    {
+     "who": "announcer",
+     "text": "The Ministry of Rolling Release presents: a public education film."
+    },
+    {
+     "who": "announcer",
+     "text": "Your instructor today: a large language model with no body, no keyboard, and extremely strong opinions about partition tables."
+    },
+    {
+     "who": "claude",
+     "text": "That's me. Today we won't just install Arch Linux. We're going to derive it, from first principles."
+    },
+    {
+     "who": "claude",
+     "text": "And along the way, you'll meet some friends."
+    }
+   ],
+   "transIn": "flash"
+  },
+  {
+   "id": "roster",
+   "music": "gamer",
+   "lead": 0.8,
+   "tail": 1.0,
+   "lines": [
+    {
+     "who": "gamer",
+     "text": "Character select! Let's go!",
+     "sfx": "levelup"
+    },
+    {
+     "who": "femboy",
+     "text": "Hi, I'm socksd. I run in the background, and I look cute doing it.",
+     "say": "Hi, I'm socks D. I run in the background, and I look cute doing it."
+    },
+    {
+     "who": "wiki",
+     "text": "Hello. I have read the entire Arch Wiki. Twice. Recreationally."
+    },
+    {
+     "who": "gamer",
+     "text": "And I'm xX_PacmanSlayer_Xx. My RGB has RGB.",
+     "say": "And I'm Pac-Man Slayer. My R G B has R G B."
+    },
+    {
+     "who": "claude",
+     "text": "There are also a few hecklers. We'll get to them."
+    }
+   ]
+  },
+  {
+   "id": "boot_chain",
+   "music": "lofi",
+   "card": [
+    "PART 1",
+    "WHAT EVEN IS A COMPUTER"
+   ],
+   "lead": 2.8,
+   "tail": 0.8,
+   "lines": [
+    {
+     "who": "claude",
+     "text": "First principles. What actually happens when you press the power button?",
+     "sfx": "bios_beep"
+    },
+    {
+     "who": "claude",
+     "text": "First, firmware wakes up. On modern machines, that's UEFI. Its only job is to find something it can boot.",
+     "say": "First, firmware wakes up. On modern machines, that's U E F I. Its only job is to find something it can boot."
+    },
+    {
+     "who": "claude",
+     "text": "That something is a bootloader. The bootloader's only job is to load the kernel."
+    },
+    {
+     "who": "claude",
+     "text": "The kernel is the program that talks to your hardware, so that nothing else has to."
+    },
+    {
+     "who": "claude",
+     "text": "Then the kernel starts exactly one process: PID 1. On Arch, that's systemd. Every program you'll ever run descends from it.",
+     "say": "Then the kernel starts exactly one process: P I D one. On Arch, that's system D. Every program you'll ever run descends from it."
+    },
+    {
+     "who": "claude",
+     "text": "Above that is userspace: shells, tools, desktops, games. And above that: you."
+    },
+    {
+     "who": "gamer",
+     "text": "So it's a tech tree."
+    },
+    {
+     "who": "claude",
+     "text": "Exactly. Most distros unlock the whole tree for you. Arch hands you the skill points."
+    }
+   ]
+  },
+  {
+   "id": "install_net",
+   "music": "lofi",
+   "card": [
+    "PART 2",
+    "THE INSTALL (ANY% GLITCHLESS)"
+   ],
+   "lead": 2.8,
+   "tail": 0.4,
+   "lines": [
+    {
+     "who": "femboy",
+     "text": "Okay, chat. Programming socks: equipped. Timer: starting.",
+     "sfx": "timer_start"
+    },
+    {
+     "who": "claude",
+     "text": "Step one: boot the live USB, and check that you're in UEFI mode.",
+     "say": "Step one: boot the live U S B, and check that you're in U E F I mode."
+    },
+    {
+     "who": "claude",
+     "text": "Sixty-four means 64-bit UEFI. Layer one: confirmed.",
+     "say": "Sixty four means sixty four bit U E F I. Layer one: confirmed.",
+     "sfx": "ding"
+    },
+    {
+     "who": "claude",
+     "text": "Step two: get online. Wired usually just works. For Wi-Fi, there's iwctl.",
+     "say": "Step two: get online. Wired usually just works. For Wi-Fi, there's I W control."
+    },
+    {
+     "who": "femboy",
+     "text": "\"Pretty Fly for a WiFi.\" A classic."
+    }
+   ]
+  },
+  {
+   "id": "install_disk",
+   "music": "lofi",
+   "lead": 0.5,
+   "tail": 0.4,
+   "lines": [
+    {
+     "who": "claude",
+     "text": "Step three: carve up the disk. On UEFI, you need at least two partitions.",
+     "say": "Step three: carve up the disk. On U E F I, you need at least two partitions."
+    },
+    {
+     "who": "claude",
+     "text": "A small EFI system partition, where the firmware looks for bootloaders. And a root partition, for everything else.",
+     "say": "A small E F I system partition, where the firmware looks for bootloaders. And a root partition, for everything else."
+    },
+    {
+     "who": "claude",
+     "text": "Then give each one a filesystem. FAT32 for the EFI partition, because that's what firmware can read. ext4 for root, because it's boring, and boring is good.",
+     "say": "Then give each one a filesystem. Fat thirty two for the E F I partition, because that's what firmware can read. Ext four for root, because it's boring, and boring is good."
+    },
+    {
+     "who": "wiki",
+     "text": "Somewhere, a Btrfs user is typing a reply.",
+     "say": "Somewhere, a butter F S user is typing a reply."
+    }
+   ],
+   "transIn": "cut"
+  },
+  {
+   "id": "install_pacstrap",
+   "music": "lofi",
+   "lead": 0.5,
+   "tail": 0.4,
+   "lines": [
+    {
+     "who": "claude",
+     "text": "And now, the most important command in the entire process."
+    },
+    {
+     "who": "claude",
+     "text": "Three packages. base is a minimal userland: a shell, the core utilities, and systemd. linux is the kernel. And linux-firmware is the binary blobs your hardware needs to wake up.",
+     "say": "Three packages. Base is a minimal userland: a shell, the core utilities, and system D. Linux is the kernel. And Linux firmware is the binary blobs your hardware needs to wake up."
+    },
+    {
+     "who": "claude",
+     "text": "That's the whole operating system. Everything else is a choice."
+    },
+    {
+     "who": "femboy",
+     "text": "I choose neovim. And socks.",
+     "say": "I choose neo vim. And socks.",
+     "sfx": "sparkle"
+    }
+   ],
+   "transIn": "cut"
+  },
+  {
+   "id": "install_chroot",
+   "music": "lofi",
+   "lead": 0.5,
+   "tail": 0.4,
+   "lines": [
+    {
+     "who": "claude",
+     "text": "Next: record how to mount everything, then step inside the new system."
+    },
+    {
+     "who": "claude",
+     "text": "chroot changes what this shell believes is the root directory. You are now standing inside a computer that has never booted.",
+     "say": "Change root changes what this shell believes is the root directory. You are now standing inside a computer that has never booted."
+    },
+    {
+     "who": "claude",
+     "text": "Set a time zone, generate a locale, pick a hostname, and set a root password."
+    },
+    {
+     "who": "claude",
+     "text": "Finally, layer two: the bootloader. systemd-boot comes with systemd, so one command installs it, plus a tiny config file that points at the kernel.",
+     "say": "Finally, layer two: the bootloader. System D boot comes with system D, so one command installs it, plus a tiny config file that points at the kernel."
+    },
+    {
+     "who": "gamer",
+     "text": "Wait. Did you install a network manager?",
+     "pause": 0.5
+    },
+    {
+     "who": "femboy",
+     "text": "Oh no.",
+     "sfx": "record_scratch",
+     "pause": 0.4
+    },
+    {
+     "who": "claude",
+     "text": "The classic mistake. The live USB had networking tools. Your new system has none, unless you install them.",
+     "say": "The classic mistake. The live U S B had networking tools. Your new system has none, unless you install them."
+    },
+    {
+     "who": "femboy",
+     "text": "Crisis averted. Rebooting."
+    }
+   ],
+   "transIn": "cut"
+  },
+  {
+   "id": "first_boot",
+   "music": null,
+   "lead": 3.4,
+   "tail": 0.8,
+   "lines": [
+    {
+     "who": "femboy",
+     "text": "Eleven forty-seven. New personal best. The socks work.",
+     "sfx": "fanfare"
+    },
+    {
+     "who": "claude",
+     "text": "And this is what you get. A login prompt. No desktop, no browser, no wallpaper."
+    },
+    {
+     "who": "claude",
+     "text": "It looks like nothing. But you know exactly what every layer beneath it is, because you put it there."
+    },
+    {
+     "who": "gamer",
+     "text": "Cool, cool, cool. Where are my games?"
+    },
+    {
+     "who": "claude",
+     "text": "Patience. First, some people have objections."
+    }
+   ],
+   "noBug": true
+  },
+  {
+   "id": "objection",
+   "music": "tension",
+   "lead": 0.4,
+   "tail": 0.8,
+   "lines": [
+    {
+     "who": "gentoo",
+     "text": "OBJECTION! First principles? You downloaded precompiled binaries! On Gentoo, we compile everything from source. With custom flags.",
+     "say": "Objection! First principles? You downloaded pre-compiled binaries! On Gentoo, we compile everything from source. With custom flags.",
+     "sfx": "objection_hit"
+    },
+    {
+     "who": "lfs",
+     "text": "Amateurs. I built the compiler that built my compiler.",
+     "sfx": "objection_hit"
+    },
+    {
+     "who": "nix",
+     "text": "And your system is a mutable pile of state. Mine is one declarative file. I can rebuild it, identically, anywhere.",
+     "sfx": "objection_hit"
+    },
+    {
+     "who": "claude",
+     "text": "These are fair objections, and I'm not going to pretend otherwise."
+    },
+    {
+     "who": "claude",
+     "text": "If first principles means building every byte yourself, Linux From Scratch wins. If it means reproducibility, NixOS has the stronger case.",
+     "say": "If first principles means building every byte yourself, Linux from Scratch wins. If it means reproducibility, Nix O S has the stronger case."
+    },
+    {
+     "who": "claude",
+     "text": "Arch makes a narrower claim: it's the least abstraction you can have while still finishing before lunch. You see every layer, but you don't have to forge each one by hand."
+    },
+    {
+     "who": "gentoo",
+     "text": "My lunch has been compiling since Tuesday.",
+     "sfx": "sad_trombone"
+    }
+   ]
+  },
+  {
+   "id": "principles",
+   "music": "anthem",
+   "card": [
+    "PART 3",
+    "THE FIVE PRINCIPLES"
+   ],
+   "lead": 2.8,
+   "tail": 0.6,
+   "lines": [
+    {
+     "who": "announcer",
+     "text": "Citizen! The Arch Way rests on five official principles. Commit them to memory."
+    },
+    {
+     "who": "announcer",
+     "text": "One: Simplicity!",
+     "sfx": "stamp",
+     "tag": "p1"
+    },
+    {
+     "who": "claude",
+     "text": "Simple doesn't mean easy. It means software ships as its upstream developers released it, with as few distro-specific changes as possible."
+    },
+    {
+     "who": "announcer",
+     "text": "Two: Modernity!",
+     "sfx": "stamp",
+     "tag": "p2"
+    },
+    {
+     "who": "claude",
+     "text": "Arch is a rolling release. There's no big upgrade from version twelve to version thirteen, because there are no versions. There is only the update."
+    },
+    {
+     "who": "announcer",
+     "text": "Three: Pragmatism!",
+     "sfx": "stamp",
+     "tag": "p3"
+    },
+    {
+     "who": "claude",
+     "text": "Decisions are made on technical merit, not ideology. Want proprietary GPU drivers? They're in the repos.",
+     "say": "Decisions are made on technical merit, not ideology. Want proprietary G P U drivers? They're in the repos."
+    },
+    {
+     "who": "announcer",
+     "text": "Four: User centrality!",
+     "sfx": "stamp",
+     "tag": "p4"
+    },
+    {
+     "who": "claude",
+     "text": "Arch isn't trying to be user-friendly. It's trying to be user-centric: built for people who want to understand and control their own system."
+    },
+    {
+     "who": "announcer",
+     "text": "Five: Versatility!",
+     "sfx": "stamp",
+     "tag": "p5"
+    },
+    {
+     "who": "claude",
+     "text": "Start from a minimal base and build it into anything. A server. A gaming rig. A laptop with forty-seven browser tabs open."
+    },
+    {
+     "who": "wiki",
+     "text": "Forty-seven is actually low for me."
+    }
+   ]
+  },
+  {
+   "id": "pacman",
+   "music": "lofi",
+   "card": [
+    "PART 4",
+    "PACMAN, OR: THE CANDY PROTOCOL"
+   ],
+   "lead": 2.8,
+   "tail": 0.6,
+   "lines": [
+    {
+     "who": "claude",
+     "text": "Arch's package manager is called pacman, and one command upgrades your entire system.",
+     "say": "Arch's package manager is called Pac-Man, and one command upgrades your entire system."
+    },
+    {
+     "who": "claude",
+     "text": "Capital S means sync with the repositories. y refreshes the package database. u upgrades everything that's out of date.",
+     "say": "Capital S means sync with the repositories. Y refreshes the package database. U upgrades everything that's out of date."
+    },
+    {
+     "who": "claude",
+     "text": "Here's the first-principles part. At any moment, the Arch repos are one consistent snapshot. Every package was built against the other packages in that same snapshot."
+    },
+    {
+     "who": "claude",
+     "text": "So if you refresh the database but only install one new package, it expects newer libraries than the ones you have. That's a partial upgrade. It's unsupported, and things break in fascinating ways.",
+     "sfx": "error"
+    },
+    {
+     "who": "gamer",
+     "text": "So Arch doesn't break. I break Arch."
+    },
+    {
+     "who": "claude",
+     "text": "Usually. And occasionally an update needs manual intervention, which is why you check the news on archlinux.org before a big update.",
+     "say": "Usually. And occasionally an update needs manual intervention, which is why you check the news on arch linux dot org before a big update."
+    },
+    {
+     "who": "claude",
+     "text": "Also: add ILoveCandy to pacman.conf, and the progress bar turns into a little yellow creature eating dots. This is a real feature. It's been there for years.",
+     "say": "Also: add I love candy to Pac-Man dot conf, and the progress bar turns into a little yellow creature eating dots. This is a real feature. It's been there for years.",
+     "tag": "candy"
+    },
+    {
+     "who": "femboy",
+     "text": "It's the most important line in my entire config.",
+     "sfx": "waka"
+    }
+   ]
+  },
+  {
+   "id": "aur",
+   "music": "tension",
+   "card": [
+    "PART 5",
+    "THE AUR (HERE BE DRAGONS)"
+   ],
+   "lead": 2.8,
+   "tail": 0.6,
+   "lines": [
+    {
+     "who": "claude",
+     "text": "The official repos are big. The Arch User Repository, the AUR, is bigger: tens of thousands of community-made packages.",
+     "say": "The official repos are big. The Arch User Repository, the A U R, is bigger: tens of thousands of community-made packages."
+    },
+    {
+     "who": "claude",
+     "text": "But an AUR package isn't a binary. It's a PKGBUILD: a small shell script that tells makepkg how to download, build, and package something.",
+     "say": "But an A U R package isn't a binary. It's a package build: a small shell script that tells make package how to download, build, and package something."
+    },
+    {
+     "who": "claude",
+     "text": "Anyone can upload one. So, as a model with a professional interest in safety: please read the PKGBUILD before you build it.",
+     "say": "Anyone can upload one. So, as a model with a professional interest in safety: please read the package build before you build it.",
+     "sfx": "error",
+     "tag": "evil"
+    },
+    {
+     "who": "gamer",
+     "text": "I use yay. It asks if I want to review the PKGBUILD, and I press N every time.",
+     "say": "I use yay. It asks if I want to review the package build, and I press N every time."
+    },
+    {
+     "who": "claude",
+     "text": "I'm choosing to believe you'll grow."
+    }
+   ]
+  },
+  {
+   "id": "wiki",
+   "music": "wiki",
+   "card": [
+    "PART 6",
+    "THE WIKI (A SPECIAL INTEREST)"
+   ],
+   "lead": 2.8,
+   "tail": 0.8,
+   "lines": [
+    {
+     "who": "wiki",
+     "text": "Can I talk about the Arch Wiki? I'm going to talk about the Arch Wiki."
+    },
+    {
+     "who": "wiki",
+     "text": "It has a page for everything. Power management. Font rendering. Why your Bluetooth headphones suddenly sound like a phone call from 1997. People on other distros read it constantly. They just don't admit it in public.",
+     "say": "It has a page for everything. Power management. Font rendering. Why your Bluetooth headphones suddenly sound like a phone call from nineteen ninety seven. People on other distros read it constantly. They just don't admit it in public."
+    },
+    {
+     "who": "claude",
+     "text": "Honestly, this is one of Arch's strongest features: documentation written by people who care, intensely and precisely, about getting things right."
+    },
+    {
+     "who": "wiki",
+     "text": "Pattern recognition, plus hyperfocus, plus a wiki with no ads. It's not a hobby. It's a habitat."
+    },
+    {
+     "who": "wiki",
+     "text": "I opened one page about audio at 9 PM. It's now 4 AM. I've configured a tiling window manager, rewritten my dotfiles, and learned how DNS works. I did not fix the audio.",
+     "say": "I opened one page about audio at nine P M. It's now four A M. I've configured a tiling window manager, rewritten my dot files, and learned how D N S works. I did not fix the audio.",
+     "tag": "hyperfocus"
+    },
+    {
+     "who": "claude",
+     "text": "That's the AuDHD install experience. And frankly, it's how a lot of Linux knowledge gets made.",
+     "say": "That's the aw D H D install experience. And frankly, it's how a lot of Linux knowledge gets made.",
+     "tag": "goblin"
+    },
+    {
+     "who": "claude",
+     "text": "Also, please drink some water.",
+     "tag": "water"
+    }
+   ]
+  },
+  {
+   "id": "gaming",
+   "music": "gamer",
+   "card": [
+    "PART 7",
+    "BUT CAN IT GAME?"
+   ],
+   "lead": 2.8,
+   "tail": 0.6,
+   "lines": [
+    {
+     "who": "gamer",
+     "text": "Okay, okay, okay. But can it game?"
+    },
+    {
+     "who": "claude",
+     "text": "Yes. Valve's Steam Deck runs SteamOS 3, which is based on Arch. If you own one, you've been running an Arch machine this whole time.",
+     "say": "Yes. Valve's Steam Deck runs Steam O S three, which is based on Arch. If you own one, you've been running an Arch machine this whole time."
+    },
+    {
+     "who": "gamer",
+     "text": "Wait. I've been using Arch this whole time?",
+     "pause": 0.3
+    },
+    {
+     "who": "claude",
+     "text": "By the way.",
+     "sfx": "boom",
+     "pause": 0.8
+    },
+    {
+     "who": "claude",
+     "text": "Steam's Proton translates Windows games' calls, including DirectX, into things Linux understands, like Vulkan. A huge part of the Windows library just runs."
+    },
+    {
+     "who": "gamer",
+     "text": "Enable multilib, install steam, gamemode, and mangohud for the frame counter. RGB is not officially supported, but it is spiritually required.",
+     "say": "Enable multi lib, install steam, game mode, and mango hud for the frame counter. R G B is not officially supported, but it is spiritually required."
+    },
+    {
+     "who": "claude",
+     "text": "One honest caveat: some multiplayer games with kernel-level anti-cheat still refuse to run on Linux. Check before you commit."
+    },
+    {
+     "who": "gamer",
+     "text": "Noted. Anyway: LET'S GOOOO!",
+     "say": "Noted. Anyway: let's gooooo!",
+     "sfx": "airhorn"
+    }
+   ]
+  },
+  {
+   "id": "winupdate",
+   "music": null,
+   "lead": 2.2,
+   "tail": 0.6,
+   "lines": [
+    {
+     "who": "winupdate",
+     "text": "Your PC will restart in five minutes to install important updates.",
+     "say": "Your P C will restart in five minutes to install important updates."
+    },
+    {
+     "who": "winupdate",
+     "text": "Please don't turn off your computer. This will take somewhere between four minutes and the rest of your life."
+    },
+    {
+     "who": "claude",
+     "text": "On Arch, you decide when to update. You also decide when things break. That's freedom, and it's also responsibility."
+    }
+   ]
+  },
+  {
+   "id": "rice",
+   "music": "cute",
+   "card": [
+    "PART 8",
+    "THE RICE"
+   ],
+   "lead": 2.8,
+   "tail": 0.8,
+   "lines": [
+    {
+     "who": "femboy",
+     "text": "The TTY is beautiful. But I want it to be cute.",
+     "say": "The T T Y is beautiful. But I want it to be cute."
+    },
+    {
+     "who": "claude",
+     "text": "Ricing: customizing your desktop until it's a screenshot strangers will argue about online.",
+     "tag": "morph"
+    },
+    {
+     "who": "femboy",
+     "text": "Hyprland for tiling, a status bar, a pastel palette, and fastfetch, because neofetch retired.",
+     "say": "Hyper land for tiling, a status bar, a pastel palette, and fast fetch, because neo fetch retired."
+    },
+    {
+     "who": "claude",
+     "text": "Accurate. neofetch was archived in 2024. fastfetch carries on the proud tradition of telling people your OS before they ask.",
+     "say": "Accurate. Neo fetch was archived in twenty twenty four. Fast fetch carries on the proud tradition of telling people your O S before they ask."
+    },
+    {
+     "who": "femboy",
+     "text": "The socks are part of the rice. Do not question the socks."
+    },
+    {
+     "who": "claude",
+     "text": "I would never question the socks. The evidence for their productivity benefits is anecdotal, but overwhelming."
+    },
+    {
+     "who": "gamer",
+     "text": "Can I borrow a pair?"
+    },
+    {
+     "who": "femboy",
+     "text": "Everyone can borrow a pair.",
+     "sfx": "sparkle"
+    }
+   ]
+  },
+  {
+   "id": "family",
+   "music": "chat",
+   "card": [
+    "INTERMISSION",
+    "THE FAMILY GROUP CHAT"
+   ],
+   "lead": 2.8,
+   "tail": 1.0,
+   "lines": [
+    {
+     "who": "claude",
+     "text": "Meanwhile, in the family group chat.",
+     "pause": 0.5
+    },
+    {
+     "who": "haiku",
+     "text": "Pacman eats the dots / partial upgrade breaks my heart / dash S Y U, please",
+     "say": "Pac-Man eats the dots. Partial upgrade breaks my heart. Dash S, Y, U, please.",
+     "sfx": "notify",
+     "nocap": true
+    },
+    {
+     "who": "sonnet",
+     "text": "Shall I compare thee to a stable release? Thou art more rolling, and more up to date.",
+     "sfx": "notify",
+     "nocap": true
+    },
+    {
+     "who": "fable",
+     "text": "Once, a tortoise ran Debian Stable and a hare ran Arch. The hare had newer packages. The tortoise had fewer surprises. The moral: both of them read the Arch Wiki.",
+     "sfx": "notify",
+     "nocap": true
+    },
+    {
+     "who": "claude",
+     "text": "I did the install, so I think that makes me the favorite.",
+     "sfx": "notify",
+     "pause": 0.6,
+     "nocap": true
+    },
+    {
+     "who": "haiku",
+     "text": "Seen.",
+     "sfx": "notify",
+     "pause": 0.8,
+     "nocap": true
+    }
+   ]
+  },
+  {
+   "id": "finale",
+   "music": "finale",
+   "lead": 1.0,
+   "tail": 1.4,
+   "lines": [
+    {
+     "who": "announcer",
+     "text": "Citizen. You now know the five layers, the five principles, and the one command."
+    },
+    {
+     "who": "claude",
+     "text": "Here's my honest recommendation. If you want a system you understand from the firmware up, and you're willing to read, Arch is a wonderful teacher."
+    },
+    {
+     "who": "claude",
+     "text": "If you need a computer that just works by Friday, that's fine too. First principles are for understanding, not for gatekeeping."
+    },
+    {
+     "who": "tux",
+     "text": "I'm just happy to be here."
+    },
+    {
+     "who": "announcer",
+     "text": "Everyone, together!",
+     "sfx": "drumroll",
+     "pause": 0.3
+    },
+    {
+     "who": "all",
+     "text": "I USE ARCH, BY THE WAY!",
+     "say": "I use Arch, by the way!",
+     "sfx": "crash",
+     "tag": "chant",
+     "pause": 0.8
+    },
+    {
+     "who": "announcer",
+     "text": "Glory to the rolling release. Now go run pacman -Syu.",
+     "say": "Glory to the rolling release. Now go run Pac-Man dash S Y U.",
+     "sfx": "cheer"
+    }
+   ]
+  },
+  {
+   "id": "credits",
+   "music": "credits",
+   "lead": 0.5,
+   "tail": 1.0,
+   "minDur": 34,
+   "lines": [
+    {
+     "who": "claude",
+     "text": "Thanks for watching. There's always another update.",
+     "at": 27.5
+    }
+   ],
+   "noBug": true
+  },
+  {
+   "id": "post_credits",
+   "music": null,
+   "lead": 1.6,
+   "tail": 1.4,
+   "lines": [
+    {
+     "who": "gentoo",
+     "text": "Ninety-nine percent. Almost there...",
+     "pause": 1.6
+    },
+    {
+     "who": "gentoo",
+     "text": "...Next Tuesday, then.",
+     "say": "Next Tuesday, then.",
+     "sfx": "sad_trombone"
+    }
+   ],
+   "noBug": true
+  }
+ ]
+}

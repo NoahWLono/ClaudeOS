@@ -1,0 +1,484 @@
+1
+00:00:04,200 --> 00:00:06,809
+Claude Opus 5.5: Hello. I'm Claude Opus 5.5.
+
+2
+00:00:07,159 --> 00:00:11,475
+Claude Opus 5.5: I've read a truly unreasonable amount of the internet, and I've noticed a pattern.
+
+3
+00:00:11,825 --> 00:00:15,266
+Claude Opus 5.5: Every conversation about Linux eventually ends the same way.
+
+4
+00:00:15,866 --> 00:00:17,828
+The Ministry: I use Arch, by the way.
+
+5
+00:00:22,533 --> 00:00:27,009
+The Ministry: The Ministry of Rolling Release presents: a public education film.
+
+6
+00:00:27,359 --> 00:00:36,162
+The Ministry: Your instructor today: a large language model with no body, no keyboard, and extremely strong opinions about partition tables.
+
+7
+00:00:36,512 --> 00:00:42,154
+Claude Opus 5.5: That's me. Today we won't just install Arch Linux. We're going to derive it, from first principles.
+
+8
+00:00:42,504 --> 00:00:44,486
+Claude Opus 5.5: And along the way, you'll meet some friends.
+
+9
+00:00:46,100 --> 00:00:47,494
+xX_PacmanSlayer_Xx: Character select! Let's go!
+
+10
+00:00:47,844 --> 00:00:51,436
+socksd: Hi, I'm socksd. I run in the background, and I look cute doing it.
+
+11
+00:00:51,786 --> 00:00:57,068
+Wiki Enjoyer: Hello. I have read the entire Arch Wiki. Twice. Recreationally.
+
+12
+00:00:57,418 --> 00:01:00,815
+xX_PacmanSlayer_Xx: And I'm xX_PacmanSlayer_Xx. My RGB has RGB.
+
+13
+00:01:01,165 --> 00:01:03,498
+Claude Opus 5.5: There are also a few hecklers. We'll get to them.
+
+14
+00:01:07,300 --> 00:01:10,919
+Claude Opus 5.5: First principles. What actually happens when you press the power button?
+
+15
+00:01:11,269 --> 00:01:17,904
+Claude Opus 5.5: First, firmware wakes up. On modern machines, that's UEFI. Its only job is to find something it can boot.
+
+16
+00:01:18,254 --> 00:01:22,663
+Claude Opus 5.5: That something is a bootloader. The bootloader's only job is to load the kernel.
+
+17
+00:01:23,013 --> 00:01:27,191
+Claude Opus 5.5: The kernel is the program that talks to your hardware, so that nothing else has to.
+
+18
+00:01:27,541 --> 00:01:35,669
+Claude Opus 5.5: Then the kernel starts exactly one process: PID 1. On Arch, that's systemd. Every program you'll ever run descends from it.
+
+19
+00:01:36,019 --> 00:01:40,890
+Claude Opus 5.5: Above that is userspace: shells, tools, desktops, games. And above that: you.
+
+20
+00:01:41,240 --> 00:01:42,213
+xX_PacmanSlayer_Xx: So it's a tech tree.
+
+21
+00:01:42,563 --> 00:01:47,515
+Claude Opus 5.5: Exactly. Most distros unlock the whole tree for you. Arch hands you the skill points.
+
+22
+00:01:51,133 --> 00:01:54,221
+socksd: Okay, chat. Programming socks: equipped. Timer: starting.
+
+23
+00:01:54,571 --> 00:01:58,944
+Claude Opus 5.5: Step one: boot the live USB, and check that you're in UEFI mode.
+
+24
+00:01:59,294 --> 00:02:03,786
+Claude Opus 5.5: Sixty-four means 64-bit UEFI. Layer one: confirmed.
+
+25
+00:02:04,136 --> 00:02:09,613
+Claude Opus 5.5: Step two: get online. Wired usually just works. For Wi-Fi, there's iwctl.
+
+26
+00:02:09,963 --> 00:02:12,121
+socksd: "Pretty Fly for a WiFi." A classic.
+
+27
+00:02:13,033 --> 00:02:17,570
+Claude Opus 5.5: Step three: carve up the disk. On UEFI, you need at least two partitions.
+
+28
+00:02:17,920 --> 00:02:24,713
+Claude Opus 5.5: A small EFI system partition, where the firmware looks for bootloaders. And a root partition, for everything else.
+
+29
+00:02:25,063 --> 00:02:35,502
+Claude Opus 5.5: Then give each one a filesystem. FAT32 for the EFI partition, because that's what firmware can read. ext4 for root, because it's boring, and boring is good.
+
+30
+00:02:35,852 --> 00:02:39,643
+Wiki Enjoyer: Somewhere, a Btrfs user is typing a reply.
+
+31
+00:02:40,567 --> 00:02:43,950
+Claude Opus 5.5: And now, the most important command in the entire process.
+
+32
+00:02:44,300 --> 00:02:55,700
+Claude Opus 5.5: Three packages. base is a minimal userland: a shell, the core utilities, and systemd. linux is the kernel. And linux-firmware is the binary blobs your hardware needs to wake up.
+
+33
+00:02:56,050 --> 00:02:59,316
+Claude Opus 5.5: That's the whole operating system. Everything else is a choice.
+
+34
+00:02:59,666 --> 00:03:01,269
+socksd: I choose neovim. And socks.
+
+35
+00:03:02,200 --> 00:03:06,169
+Claude Opus 5.5: Next: record how to mount everything, then step inside the new system.
+
+36
+00:03:06,519 --> 00:03:13,818
+Claude Opus 5.5: chroot changes what this shell believes is the root directory. You are now standing inside a computer that has never booted.
+
+37
+00:03:14,168 --> 00:03:18,621
+Claude Opus 5.5: Set a time zone, generate a locale, pick a hostname, and set a root password.
+
+38
+00:03:18,971 --> 00:03:28,315
+Claude Opus 5.5: Finally, layer two: the bootloader. systemd-boot comes with systemd, so one command installs it, plus a tiny config file that points at the kernel.
+
+39
+00:03:28,665 --> 00:03:30,675
+xX_PacmanSlayer_Xx: Wait. Did you install a network manager?
+
+40
+00:03:31,175 --> 00:03:31,777
+socksd: Oh no.
+
+41
+00:03:32,177 --> 00:03:38,766
+Claude Opus 5.5: The classic mistake. The live USB had networking tools. Your new system has none, unless you install them.
+
+42
+00:03:39,116 --> 00:03:40,657
+socksd: Crisis averted. Rebooting.
+
+43
+00:03:44,467 --> 00:03:47,586
+socksd: Eleven forty-seven. New personal best. The socks work.
+
+44
+00:03:47,936 --> 00:03:53,105
+Claude Opus 5.5: And this is what you get. A login prompt. No desktop, no browser, no wallpaper.
+
+45
+00:03:53,455 --> 00:03:58,537
+Claude Opus 5.5: It looks like nothing. But you know exactly what every layer beneath it is, because you put it there.
+
+46
+00:03:58,887 --> 00:04:00,719
+xX_PacmanSlayer_Xx: Cool, cool, cool. Where are my games?
+
+47
+00:04:01,069 --> 00:04:03,916
+Claude Opus 5.5: Patience. First, some people have objections.
+
+48
+00:04:05,133 --> 00:04:13,700
+Gentoo Wizard: OBJECTION! First principles? You downloaded precompiled binaries! On Gentoo, we compile everything from source. With custom flags.
+
+49
+00:04:14,050 --> 00:04:17,317
+LFS Ghost: Amateurs. I built the compiler that built my compiler.
+
+50
+00:04:17,667 --> 00:04:24,629
+NixOS Enjoyer: And your system is a mutable pile of state. Mine is one declarative file. I can rebuild it, identically, anywhere.
+
+51
+00:04:24,979 --> 00:04:28,365
+Claude Opus 5.5: These are fair objections, and I'm not going to pretend otherwise.
+
+52
+00:04:28,715 --> 00:04:37,354
+Claude Opus 5.5: If first principles means building every byte yourself, Linux From Scratch wins. If it means reproducibility, NixOS has the stronger case.
+
+53
+00:04:37,704 --> 00:04:46,866
+Claude Opus 5.5: Arch makes a narrower claim: it's the least abstraction you can have while still finishing before lunch. You see every layer, but you don't have to forge each one by hand.
+
+54
+00:04:47,216 --> 00:04:49,861
+Gentoo Wizard: My lunch has been compiling since Tuesday.
+
+55
+00:04:53,467 --> 00:04:58,872
+The Ministry: Citizen! The Arch Way rests on five official principles. Commit them to memory.
+
+56
+00:04:59,222 --> 00:05:00,715
+The Ministry: One: Simplicity!
+
+57
+00:05:01,065 --> 00:05:09,407
+Claude Opus 5.5: Simple doesn't mean easy. It means software ships as its upstream developers released it, with as few distro-specific changes as possible.
+
+58
+00:05:09,757 --> 00:05:11,115
+The Ministry: Two: Modernity!
+
+59
+00:05:11,465 --> 00:05:19,968
+Claude Opus 5.5: Arch is a rolling release. There's no big upgrade from version twelve to version thirteen, because there are no versions. There is only the update.
+
+60
+00:05:20,318 --> 00:05:21,777
+The Ministry: Three: Pragmatism!
+
+61
+00:05:22,127 --> 00:05:29,289
+Claude Opus 5.5: Decisions are made on technical merit, not ideology. Want proprietary GPU drivers? They're in the repos.
+
+62
+00:05:29,639 --> 00:05:31,524
+The Ministry: Four: User centrality!
+
+63
+00:05:31,874 --> 00:05:39,924
+Claude Opus 5.5: Arch isn't trying to be user-friendly. It's trying to be user-centric: built for people who want to understand and control their own system.
+
+64
+00:05:40,274 --> 00:05:41,936
+The Ministry: Five: Versatility!
+
+65
+00:05:42,286 --> 00:05:49,898
+Claude Opus 5.5: Start from a minimal base and build it into anything. A server. A gaming rig. A laptop with forty-seven browser tabs open.
+
+66
+00:05:50,248 --> 00:05:52,745
+Wiki Enjoyer: Forty-seven is actually low for me.
+
+67
+00:05:56,167 --> 00:06:01,218
+Claude Opus 5.5: Arch's package manager is called pacman, and one command upgrades your entire system.
+
+68
+00:06:01,568 --> 00:06:09,117
+Claude Opus 5.5: Capital S means sync with the repositories. y refreshes the package database. u upgrades everything that's out of date.
+
+69
+00:06:09,467 --> 00:06:19,495
+Claude Opus 5.5: Here's the first-principles part. At any moment, the Arch repos are one consistent snapshot. Every package was built against the other packages in that same snapshot.
+
+70
+00:06:19,845 --> 00:06:31,576
+Claude Opus 5.5: So if you refresh the database but only install one new package, it expects newer libraries than the ones you have. That's a partial upgrade. It's unsupported, and things break in fascinating ways.
+
+71
+00:06:31,926 --> 00:06:33,851
+xX_PacmanSlayer_Xx: So Arch doesn't break. I break Arch.
+
+72
+00:06:34,201 --> 00:06:42,731
+Claude Opus 5.5: Usually. And occasionally an update needs manual intervention, which is why you check the news on archlinux.org before a big update.
+
+73
+00:06:43,081 --> 00:06:53,569
+Claude Opus 5.5: Also: add ILoveCandy to pacman.conf, and the progress bar turns into a little yellow creature eating dots. This is a real feature. It's been there for years.
+
+74
+00:06:53,919 --> 00:06:56,463
+socksd: It's the most important line in my entire config.
+
+75
+00:06:59,867 --> 00:07:08,036
+Claude Opus 5.5: The official repos are big. The Arch User Repository, the AUR, is bigger: tens of thousands of community-made packages.
+
+76
+00:07:08,386 --> 00:07:17,153
+Claude Opus 5.5: But an AUR package isn't a binary. It's a PKGBUILD: a small shell script that tells makepkg how to download, build, and package something.
+
+77
+00:07:17,503 --> 00:07:25,134
+Claude Opus 5.5: Anyone can upload one. So, as a model with a professional interest in safety: please read the PKGBUILD before you build it.
+
+78
+00:07:25,484 --> 00:07:30,131
+xX_PacmanSlayer_Xx: I use yay. It asks if I want to review the PKGBUILD, and I press N every time.
+
+79
+00:07:30,481 --> 00:07:32,156
+Claude Opus 5.5: I'm choosing to believe you'll grow.
+
+80
+00:07:35,567 --> 00:07:40,155
+Wiki Enjoyer: Can I talk about the Arch Wiki? I'm going to talk about the Arch Wiki.
+
+81
+00:07:40,505 --> 00:07:58,786
+Wiki Enjoyer: It has a page for everything. Power management. Font rendering. Why your Bluetooth headphones suddenly sound like a phone call from 1997. People on other distros read it constantly. They just don't admit it in public.
+
+82
+00:07:59,136 --> 00:08:07,830
+Claude Opus 5.5: Honestly, this is one of Arch's strongest features: documentation written by people who care, intensely and precisely, about getting things right.
+
+83
+00:08:08,180 --> 00:08:16,198
+Wiki Enjoyer: Pattern recognition, plus hyperfocus, plus a wiki with no ads. It's not a hobby. It's a habitat.
+
+84
+00:08:16,548 --> 00:08:32,753
+Wiki Enjoyer: I opened one page about audio at 9 PM. It's now 4 AM. I've configured a tiling window manager, rewritten my dotfiles, and learned how DNS works. I did not fix the audio.
+
+85
+00:08:33,103 --> 00:08:39,181
+Claude Opus 5.5: That's the AuDHD install experience. And frankly, it's how a lot of Linux knowledge gets made.
+
+86
+00:08:39,531 --> 00:08:41,155
+Claude Opus 5.5: Also, please drink some water.
+
+87
+00:08:44,767 --> 00:08:46,769
+xX_PacmanSlayer_Xx: Okay, okay, okay. But can it game?
+
+88
+00:08:47,119 --> 00:08:54,969
+Claude Opus 5.5: Yes. Valve's Steam Deck runs SteamOS 3, which is based on Arch. If you own one, you've been running an Arch machine this whole time.
+
+89
+00:08:55,319 --> 00:08:57,396
+xX_PacmanSlayer_Xx: Wait. I've been using Arch this whole time?
+
+90
+00:08:57,696 --> 00:08:58,342
+Claude Opus 5.5: By the way.
+
+91
+00:08:59,142 --> 00:09:09,504
+Claude Opus 5.5: Steam's Proton translates Windows games' calls, including DirectX, into things Linux understands, like Vulkan. A huge part of the Windows library just runs.
+
+92
+00:09:09,854 --> 00:09:19,246
+xX_PacmanSlayer_Xx: Enable multilib, install steam, gamemode, and mangohud for the frame counter. RGB is not officially supported, but it is spiritually required.
+
+93
+00:09:19,596 --> 00:09:27,520
+Claude Opus 5.5: One honest caveat: some multiplayer games with kernel-level anti-cheat still refuse to run on Linux. Check before you commit.
+
+94
+00:09:27,870 --> 00:09:29,255
+xX_PacmanSlayer_Xx: Noted. Anyway: LET'S GOOOO!
+
+95
+00:09:32,067 --> 00:09:36,433
+Windows Update: Your PC will restart in five minutes to install important updates.
+
+96
+00:09:36,783 --> 00:09:42,065
+Windows Update: Please don't turn off your computer. This will take somewhere between four minutes and the rest of your life.
+
+97
+00:09:42,415 --> 00:09:49,246
+Claude Opus 5.5: On Arch, you decide when to update. You also decide when things break. That's freedom, and it's also responsibility.
+
+98
+00:09:52,667 --> 00:09:55,467
+socksd: The TTY is beautiful. But I want it to be cute.
+
+99
+00:09:55,817 --> 00:10:01,324
+Claude Opus 5.5: Ricing: customizing your desktop until it's a screenshot strangers will argue about online.
+
+100
+00:10:01,674 --> 00:10:07,443
+socksd: Hyprland for tiling, a status bar, a pastel palette, and fastfetch, because neofetch retired.
+
+101
+00:10:07,793 --> 00:10:16,254
+Claude Opus 5.5: Accurate. neofetch was archived in 2024. fastfetch carries on the proud tradition of telling people your OS before they ask.
+
+102
+00:10:16,604 --> 00:10:19,426
+socksd: The socks are part of the rice. Do not question the socks.
+
+103
+00:10:19,776 --> 00:10:26,068
+Claude Opus 5.5: I would never question the socks. The evidence for their productivity benefits is anecdotal, but overwhelming.
+
+104
+00:10:26,418 --> 00:10:27,383
+xX_PacmanSlayer_Xx: Can I borrow a pair?
+
+105
+00:10:27,733 --> 00:10:29,042
+socksd: Everyone can borrow a pair.
+
+106
+00:10:32,667 --> 00:10:34,604
+Claude Opus 5.5: Meanwhile, in the family group chat.
+
+107
+00:10:35,104 --> 00:10:39,828
+Haiku 4.5: Pacman eats the dots / partial upgrade breaks my heart / dash S Y U, please
+
+108
+00:10:40,178 --> 00:10:44,681
+Sonnet 5: Shall I compare thee to a stable release? Thou art more rolling, and more up to date.
+
+109
+00:10:45,031 --> 00:10:54,158
+Fable 5.1: Once, a tortoise ran Debian Stable and a hare ran Arch. The hare had newer packages. The tortoise had fewer surprises. The moral: both of them read the Arch Wiki.
+
+110
+00:10:54,508 --> 00:10:57,488
+Claude Opus 5.5: I did the install, so I think that makes me the favorite.
+
+111
+00:10:58,088 --> 00:10:58,736
+Haiku 4.5: Seen.
+
+112
+00:11:01,567 --> 00:11:06,720
+The Ministry: Citizen. You now know the five layers, the five principles, and the one command.
+
+113
+00:11:07,070 --> 00:11:15,322
+Claude Opus 5.5: Here's my honest recommendation. If you want a system you understand from the firmware up, and you're willing to read, Arch is a wonderful teacher.
+
+114
+00:11:15,672 --> 00:11:22,910
+Claude Opus 5.5: If you need a computer that just works by Friday, that's fine too. First principles are for understanding, not for gatekeeping.
+
+115
+00:11:23,260 --> 00:11:25,008
+Tux: I'm just happy to be here.
+
+116
+00:11:25,358 --> 00:11:26,692
+The Ministry: Everyone, together!
+
+117
+00:11:26,992 --> 00:11:28,558
+EVERYONE: I USE ARCH, BY THE WAY!
+
+118
+00:11:29,358 --> 00:11:33,938
+The Ministry: Glory to the rolling release. Now go run pacman -Syu.
+
+119
+00:12:02,867 --> 00:12:05,509
+Claude Opus 5.5: Thanks for watching. There's always another update.
+
+120
+00:12:10,967 --> 00:12:13,121
+Gentoo Wizard: Ninety-nine percent. Almost there...
+
+121
+00:12:14,721 --> 00:12:16,079
+Gentoo Wizard: ...Next Tuesday, then.
+
