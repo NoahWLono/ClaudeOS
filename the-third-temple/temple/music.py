@@ -108,6 +108,48 @@ SONGS = {
 }
 
 
+HYMNAL = os.path.join(os.path.dirname(os.path.abspath(__file__)), "..",
+                      "data", "relics", "Sup1Hymns")
+
+
+def parse_hymn(path):
+    """Pull tempo, staccato, and Play(notes, words) calls out of one of
+    Terry's .HC song files."""
+    import re
+    with open(path, encoding="latin-1") as f:
+        src = f.read()
+    z = src.find("\0")
+    if z >= 0:
+        src = src[:z]
+    tempo = re.search(r"music\.tempo\s*=\s*([\d.]+)", src)
+    stac = re.search(r"music\.stacatto_factor\s*=\s*([\d.]+)", src)
+    parts = []
+    for m in re.finditer(r'Play\(\s*"([^"]*)"\s*(?:,\s*((?:"(?:[^"\\]|\\.)*"'
+                         r'\s*)+))?\)', src):
+        words = None
+        if m.group(2):
+            words = "".join(re.findall(r'"((?:[^"\\]|\\.)*)"', m.group(2)))
+            words = (words.replace("\\0", "\0").replace("\\n", "\n")
+                     .replace('\\"', '"'))
+        parts.append((m.group(1), words) if words else m.group(1))
+    return dict(tempo=float(tempo.group(1)) if tempo else 2.5,
+                staccato=float(stac.group(1)) if stac else 0.9, parts=parts)
+
+
+def hymn(name):
+    """A song from Terry's supplemental hymnal (Sup1Hymns/<name>.HC)."""
+    key = "hymn:" + name
+    if key not in SONGS:
+        SONGS[key] = parse_hymn(os.path.join(HYMNAL, name + ".HC"))
+    return key
+
+
+# ::/Sup1/Sup1Hymns/risen.HC "He laughed and gave an epic song!"
+SONGS["risen"] = dict(tempo=2.480, staccato=0.902, parts=[
+    "5eDEqFFetEEFqDeCDDEetCGF", "5eDEqFFetEEFqDeCDDEetCGF",
+    "5eDCqDE4eAA5etEEFEDG4B5DCqF", "5eDCqDE4eAA5etEEFEDG4B5DCqF"])
+
+
 def notes(name, repeat=1, tempo_scale=1.0):
     s = SONGS[name]
     return A.song_notes(s["parts"], s["tempo"] * tempo_scale, s["staccato"],

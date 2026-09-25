@@ -120,7 +120,7 @@ def spark_mesh(rays=12, seed=5):
 
 def render(cv, mesh, R, pos, focal=420.0, center=(W / 2, H / 2),
            light=(-0.4, 0.7, -0.6), ambient=0.28, outline=None,
-           ramps=None, gain=1.0, levels=2):
+           ramps=None, gain=1.0, levels=2, cull=True):
     v, faces = mesh
     ramps = ramps or RAMPS
     cam = v @ R.T + np.asarray(pos, dtype=np.float64)
@@ -139,7 +139,7 @@ def render(cv, mesh, R, pos, focal=420.0, center=(W / 2, H / 2),
         for i in range(len(idx)):
             j = (i + 1) % len(idx)
             area += xs[i] * ys[j] - xs[j] * ys[i]
-        if area <= 0:  # back face (screen y points down)
+        if cull and area <= 0:  # back face (screen y points down)
             continue
         nrm = np.cross(p[1] - p[0], p[2] - p[0])
         nn = np.linalg.norm(nrm)

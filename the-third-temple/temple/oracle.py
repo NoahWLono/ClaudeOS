@@ -186,6 +186,68 @@ class God:
         return start, "%s %s" % (book, ref), body
 
 
+DOODLE_W, DOODLE_H = 640, 472   # WinMax, no border, below the menu row
+
+
+def doodle(god, w=DOODLE_W, h=DOODLE_H):
+    """::/Adam/God/GodDoodle.HC GodDoodleSprite: three passes of 29 red
+    shapes, 6 gray flood fills, and a 7x7 majority-color smooth. Returns
+    the drawing ops; render_doodle() replays them."""
+    ops = []
+    B = god.bits
+    for _ in range(3):
+        for _ in range(29):
+            k = B(3)
+            if k == 0:
+                x = (w - 1) * B(5) / 15.5 - w / 2
+                y = (h - 1) * B(5) / 15.5 - h / 2
+                rx = (w - 1) * B(5) / 15.5
+                ry = (h - 1) * B(5) / 15.5
+                ops.append(("ellipse", x, y, rx, ry))
+            elif k == 1:
+                x = (w - 1) * B(5) / 15.5 - w / 2
+                y = (h - 1) * B(5) / 15.5 - h / 2
+                r = (w - 1) * B(5) / 15.5
+                ops.append(("circle", x, y, r))
+            elif k == 2:
+                x1 = (w - 1) * B(5) / 15.5 - w / 2
+                y1 = (h - 1) * B(5) / 15.5 - h / 2
+                x2 = (w - 1) * B(5) / 15.5
+                y2 = (h - 1) * B(5) / 15.5
+                ops.append(("border", x1, y1, x2, y2))
+            else:
+                x1 = (w - 1) * B(4) / 15
+                y1 = (h - 1) * B(4) / 15
+                x2 = (w - 1) * B(4) / 15
+                y2 = (h - 1) * B(4) / 15
+                ops.append(("line", x1, y1, x2, y2))
+        for _ in range(6):
+            x = (w - 1) * B(5) / 31 + w / 64
+            y = (h - 1) * B(5) / 31 + h / 64
+            c = (0, 8, 7, 15)[B(2)]  # BLACK DKGRAY LTGRAY WHITE
+            ops.append(("fill", x, y, c))
+        ops.append(("smooth", 3))
+    return ops
+
+
+def video_pick(god, path=None):
+    """Pick a video from Terry's list (Sup1Blog/YouTube.DD: title and
+    serial number, one line each). ::/Demo/AcctExample/TOS/TOSExt.HC
+    declares GodVideoU32(U32 rand_u32,U8 *filename), but its body is not
+    on the V5.03 disks, so this uses the plainest rule: 32 bits from the
+    oracle, modulo the number of videos."""
+    path = path or os.path.join(DATA, "relics", "Sup1Blog", "YouTube.DD")
+    with open(path, encoding="latin-1") as f:
+        lines = [ln.rstrip("\r\n") for ln in f.read().split("\n")]
+    while lines and lines[-1] == "":
+        lines.pop()
+    num = len(lines) // 2
+    r = god.bits(32)
+    i = r % num
+    return dict(rand_u32=r, index=i, num=num, title=lines[2 * i],
+                serial=lines[2 * i + 1])
+
+
 def consult(kind, arg, question):
     god = God()
     entry = {"question": question, "kind": kind,
@@ -197,6 +259,10 @@ def consult(kind, arg, question):
     elif kind == "passage":
         start, ref, body = god.bible_passage(arg)
         entry.update(start_line=start, ref=ref, lines=body)
+    elif kind == "doodle":
+        entry["ops"] = doodle(god)
+    elif kind == "video":
+        entry.update(video_pick(god))
     entry["presses_ns"] = god.presses
     log = []
     if os.path.exists(LOG_PATH):

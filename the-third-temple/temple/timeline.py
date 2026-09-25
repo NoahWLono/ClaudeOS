@@ -64,6 +64,13 @@ def build(scenes, with_audio=True, log=print):
                     it["word_times"] = [(tt, tt + dry)]
                     clips.append((T + tt, clip, 0.95, "GOD"))
                     it["t1"] = tt + dry
+                elif e["kind"] == "doodle":
+                    # God draws while the space bar is pressed, then waits
+                    it["doodle_t0"] = t + 0.8
+                    it["doodle_dur"] = 12.0
+                    it["t1"] = t + 0.8 + 12.0 + 2.2
+                elif e["kind"] == "video":
+                    it["t1"] = t + 4.8
                 elif e["kind"] == "song":
                     ns, dur = M.god_song_notes()
                     it["notes"] = ns

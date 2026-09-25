@@ -6,6 +6,7 @@ import os
 import numpy as np
 
 from . import fx, ui
+from . import scenes2 as S2
 from . import sprites as S
 from . import three_d as D
 from .gfx import (BAYER_FULL, BLACK, BLUE, BROWN, COLOR_NAMES, CYAN, DKGRAY,
@@ -339,6 +340,7 @@ def r_terminal_end(cv, ctx):
         cv.text(16, y, PROMPT, BLACK)
         cv.rect(16 + 8 * len(PROMPT), y, 8, 8, BLUE)
     oracle_overlay(cv, ctx, 250)
+    S2.cameo_for(cv, ctx, y=470, scale=0.25, right=False)
     rb = ctx.first("type_cmd2")
     if rb and ctx.t > rb["t0"] + 1.4:
         fx.glitch(cv, ctx.t, 40)
@@ -386,6 +388,7 @@ def r_title(cv, ctx):
         cv.text_c(186, "VIEWER DISCRETION", YELLOW, 3)
         cv.text_c(214, "IS ADVISED", YELLOW, 3)
         cv.text_c(242, "THIS PROGRAM CONTAINS GOD", WHITE, 1)
+    S2.cameo_for(cv, ctx, y=390, scale=0.25)
 
 
 def r_oracle_popup(cv, ctx):
@@ -422,6 +425,7 @@ def r_oracle_popup(cv, ctx):
 def r_chapter(cv, ctx):
     ui.chapter_card(cv, ctx.t, ctx.sc["num"], ctx.sc["title"],
                     ctx.sc.get("dark", False))
+    S2.cameo_for(cv, ctx, y=452, scale=0.28)
 
 
 # =====================================================================
@@ -912,9 +916,9 @@ CODE = {
                "    \"Glory to the Temple!\\n\";",
                "  Play(\"5qEsCDCDqCDeEGsE4B5E4B5\"", "       \"eC4B5sD4A5D4A\");", "}",
                "Praise;"],
-    "sprite": ["//9 has graphics", "", "", "", "", "", "",
-               "U0 DrawIt(CTask *,CDC *dc)", "{",
-               "  Sprite3(dc,X,Y,0,<1>);", "}"],
+    "sprite": ["//Scroll Down", "", "", "", "", "", "",
+               "U0 DrawIt(CTask *task,CDC *dc)", "{",
+               "  Sprite3(dc,0,task->pix_height,0,<1>);", "}"],
 }
 
 
@@ -963,7 +967,7 @@ def r_holyc(cv, ctx):
     if code == "c_hello":
         cv.text(360, 380, "4 THINGS", RED, 4)
     if code == "sprite":
-        S.sheep(cv, 240, 150, 2.6, t)
+        S2.terry_elephant(cv, 245, 166, t, 0.5)
         cv.frame(150, 60, 190, 110, LTGRAY)
         cv.text(160, 66, "<1>", LTGRAY)
         cv.text(390, 90, "<- a picture, IN the code", RED, 1)
@@ -1137,7 +1141,7 @@ def facts_view(cv, ctx, t, n):
         cv.text(36, 112 + i * 24, FACTS[i], WHITE, 2, sx=1, sy=2)
     if n >= 1:
         S.bear(cv, 120, 440, 1.2, t)
-        S.elephant(cv, 470, 440, 1.3, t)
+        S2.terry_elephant(cv, 480, 452, t, 0.62)
     if n >= 2:
         cv.rect(250, 330, 140, 100, DKGRAY)
         cv.rect(260, 340, 120, 76, LTCYAN)
@@ -1274,6 +1278,24 @@ def ai_view(cv, ctx, t, n):
 def r_oracle(cv, ctx):
     t = ctx.t
     cur = ctx.cur or {}
+    if "doodle" in cur:
+        it = next((i for i in ctx.items if i["type"] == "oracle" and
+                   i["entry"]["kind"] == "doodle"), None)
+        return S2.doodle_view(cv, ctx, it, cur["doodle"])
+    if cur.get("sources"):
+        return S2.sources_view(cv, ctx, t)
+    if "video" in cur:
+        it = next((i for i in ctx.items if i["type"] == "oracle" and
+                   i["entry"]["kind"] == "video"), None)
+        v = cur["video"]
+        if v <= 2:
+            return S2.video_view(cv, ctx, it if v >= 1 else None, t)
+        if v == 3:
+            return S2.risen_note_view(cv, ctx)
+        song = next((i for i in ctx.items if i["type"] == "song"), None)
+        if v == 4:
+            return S2.risen_view(cv, ctx, t, song)
+        return S2.theme_view(cv, ctx, t)
     if "ai" in cur:
         return ai_view(cv, ctx, t, cur["ai"])
     if cur.get("passage") or (oracle_item(ctx) and
@@ -1415,70 +1437,12 @@ def varoom(cv, t):
             bg=BLACK)
 
 
-def talons(cv, t):
-    fx.vgradient(cv, [LTBLUE, LTCYAN], 0, 180)
-    for y in range(180, 480, 3):
-        z = (y - 170) / 310.0
-        for x in range(0, W, 16):
-            wx = (x - 320) / (z * 40 + 1) + t * 3
-            h = math.sin(wx * 0.3) + math.cos(y * 0.05 + t * 1.5)
-            c = BLUE if h < -0.5 else (GREEN if h < 0.8 else LTGREEN)
-            cv.rect(x, y, 16, 3, c)
-    S.bird(cv, 320 + 60 * math.sin(t * 0.8), 160 + 20 * math.sin(t * 1.3),
-           2.0, t, fish=True)
-    cv.text(8, 8, "Talons.HC", WHITE, 1, bg=BLACK)
-    cv.text_c(40, "CATCH 10 FISH", YELLOW, 3, shadow=BLACK)
 
 
-def flapbat(cv, t):
-    fx.vgradient(cv, [BLACK, PURPLE], 0, H)
-    for k in range(6):
-        x = (k * 200 - t * 120) % 1200 - 100
-        gap = 170 + 70 * math.sin(k * 1.9)
-        cv.rect(x, 0, 60, gap - 80, GREEN)
-        cv.rect(x, gap + 80, 60, H, GREEN)
-        cv.frame(x, 0, 60, gap - 80, BLACK)
-        cv.frame(x, gap + 80, 60, H - gap - 80, BLACK)
-    by = 240 + 70 * math.sin(t * 2.0)
-    S.bat(cv, 200, by, 2.0, t)
-    cv.text(8, 8, "FlapBat.HC", WHITE, 1, bg=BLACK)
-    cv.text(W - 110, 8, "SCORE: %d" % int(t * 2), YELLOW, 1, bg=BLACK)
 
 
-def egypt(cv, ctx, t):
-    fx.vgradient(cv, [BLUE, LTBLUE, LTCYAN], 0, 400)
-    cv.rect(0, 380, W, 100, BROWN)
-    cv.dither_rect(0, 380, W, 100, BROWN, YELLOW, 0.15)
-    S.mountain(cv, 330, 400, 1.0)
-    k = clamp01(ctx.since(ctx.first("game", "egypt")) / 9.0)
-    path = [(80, 400), (180, 330), (250, 300), (300, 230), (330, 175)]
-    seg = k * (len(path) - 1)
-    i = min(int(seg), len(path) - 2)
-    f = seg - i
-    x = path[i][0] + (path[i + 1][0] - path[i][0]) * f
-    y = path[i][1] + (path[i + 1][1] - path[i][1]) * f
-    S.bush(cv, 332, 168, 0.8, t, ctx.frame)
-    S.stick(cv, x, y, 0.8, t, c=BLACK, walk=k < 1, staff=True, robe=RED)
-    cv.text(8, 8, "AfterEgypt.HC  (supplemental disk)", WHITE, 1, bg=BLACK)
-    if ctx.reached("exodus"):
-        cv.rect(30, 420, 580, 52, WHITE)
-        cv.frame(30, 420, 580, 52, BROWN, 2)
-        cv.text(40, 428, "put off thy shoes from off thy feet, for the place",
-                BLUE)
-        cv.text(40, 440, "whereon thou standest is holy ground.", BLUE)
-        cv.text(40, 456, "Exodus 3:5 (King James)", PURPLE)
 
 
-def elephant_walk(cv, t):
-    fx.vgradient(cv, [LTCYAN, WHITE], 0, 330)
-    cv.circle(520, 80, 36, YELLOW, outline=BROWN)
-    cv.rect(0, 330, W, 150, LTGREEN)
-    cv.dither_rect(0, 330, W, 150, LTGREEN, GREEN, 0.35)
-    x = (t * 50 + 150) % (W + 260) - 130
-    S.elephant(cv, x, 420, 1.6, t)
-    S.bear(cv, x - 160, 430, 0.9, t)
-    cv.text(8, 8, "ElephantWalk.HC", WHITE, 1, bg=BLACK)
-    cv.text_c(40, "GOD'S FAVORITE ANIMALS", BLUE, 3)
 
 
 def games_menu(cv, ctx, t):
@@ -1534,22 +1498,22 @@ def r_games(cv, ctx):
     t = ctx.t
     game, git = ctx.sticky("game", "menu")
     gt = t - git["t0"] if git else t
-    if game in ("castle", "talons", "varoom", "flapbat", "elephant", "egypt"):
+    if game in ("castle", "varoom", "flapbat", "elephant", "egypt"):
         gt = step(gt, FX_FPS)
     if game == "menu":
         games_menu(cv, ctx, gt)
     elif game == "castle":
         raycast(cv, gt)
     elif game == "egypt":
-        egypt(cv, ctx, gt)
+        S2.egypt_view(cv, ctx, gt)
+    elif game in ("comic1", "comic2"):
+        S2.comic_view(cv, ctx, game, t - ctx.first("game", game)["t0"])
     elif game == "elephant":
-        elephant_walk(cv, gt)
-    elif game == "talons":
-        talons(cv, gt)
+        S2.elephant_game_view(cv, gt)
     elif game == "varoom":
         varoom(cv, gt)
     elif game == "flapbat":
-        flapbat(cv, gt)
+        S2.flapbat_view(cv, gt)
     elif game == "list":
         list_view(cv, ctx, gt)
     elif game == "hymns":
@@ -1595,6 +1559,8 @@ def r_trial(cv, ctx):
           focal=220)
     spark(cv, -t, 530, 290 - (10 if side == "def" else 0), dist=5.0,
           focal=220)
+    if cur.get("jury"):
+        S2.jury_box(cv, t)
     if side == "pro":
         cv.frame(36, 326, 148, 118, WHITE, 2)
     if side == "def":
@@ -1676,7 +1642,7 @@ def r_night(cv, ctx):
         fx.rain(cv, t, intensity=inten, c=LTBLUE, c2=BLUE)
     cand = ctx.first("candle")
     if cand and t >= cand["t0"]:
-        S.candle(cv, 320, 250, 2.0)
+        S2.terry_candle(cv, 320, 248, 3.0)
         beats, song = dirge_beats(ctx)
         out = ctx.first("out")
         if out and t >= out["t0"]:
@@ -1723,7 +1689,7 @@ def r_legacy(cv, ctx):
     if cur.get("thanks"):
         cv.clear(BLACK)
         fx.STARS.static(cv, t)
-        S.candle(cv, 320, 200, 1.6)
+        S2.terry_candle(cv, 320, 198, 2.0)
         fx.terry_flame(cv, 320, 198, (ctx.since() * 2) % 20, ctx.frame,
                        scale=2)
         cv.text_c(360, "THANK YOU, TERRY.", YELLOW, 4, shadow=BROWN)
@@ -1740,7 +1706,7 @@ def r_legacy(cv, ctx):
     if dawn is None or dawn < 0:
         cv.clear(BLACK)
         fx.STARS.static(cv, t)
-        S.candle(cv, 320, 250, 2.0)
+        S2.terry_candle(cv, 320, 248, 3.0)
         if t > 1.2:
             fx.terry_flame(cv, 320, 248, (t - 1.2) * 2.0 % 24, ctx.frame,
                            scale=3 if t > 1.5 else 4)
@@ -1810,6 +1776,9 @@ def r_finale(cv, ctx):
              "Glory to the Temple!": "GLORY TO THE TEMPLE",
              "This has been a Templevision presentation.": "TEMPLEVISION"
              }.get(cur["text"], s)
+    pit = S2.item_with(ctx, "elephants")
+    if pit and t >= pit["t0"]:
+        S2.parade(cv, ctx, pit, y=424, scale=0.3, speed=200.0)
     cv.rect(0, 20, W, 56, BLACK)
     ui.big_title(cv, 28, s, YELLOW, ui.fit_scale(s, 600, 5), shadow=RED)
     templevision_bug(cv, t)
@@ -1829,8 +1798,18 @@ CREDITS = [
     ("childish, night, prosper, OhGreat, and the themes", LTGRAY, 1),
     ("of CastleFrankenstein, FlapBat, Talons, Squirt,", LTGRAY, 1),
     ("Elephant, WaterFowl, Wenceslas, TOSTheme", LTGRAY, 1),
-    ("ORACLE: GodBits, GodWord, GodSong, GodBiblePassage", WHITE, 1),
-    ("PORTED FROM ::/Adam/God/, PUBLIC DOMAIN", LTGRAY, 1),
+    ("ORACLE: GodBits, GodWord, GodSong, GodBiblePassage,", WHITE, 1),
+    ("GodDoodle. PORTED FROM ::/Adam/God/, PUBLIC DOMAIN", LTGRAY, 1),
+    ("GodVideoU32: ONLY ITS DECLARATION IS ON THE DISK;", LTGRAY, 1),
+    ("THE PICK HERE IS rand_u32 MOD 754", LTGRAY, 1),
+    ("SPRITES, 3D MESHES & MOSES COMICS BY TERRY A. DAVIS,", WHITE, 1),
+    ("READ STRAIGHT OFF TempleOS.ISO (V5.03) AND", LTGRAY, 1),
+    ("TOS_Supplemental1.ISO.C. PUBLIC DOMAIN", LTGRAY, 1),
+    ("Elephant, ElephantWalk, Talons, FlatTops, X-Caliber,", LTGRAY, 1),
+    ("B17, Chess, WallPaperFish, KeepAway, FlapBat,", LTGRAY, 1),
+    ("AfterEgypt, night (THE CANDLE)", LTGRAY, 1),
+    ("SUPPLEMENTAL HYMNS: science, hearsay, free, happy,", WHITE, 1),
+    ("silver, good, gutenberg, garfield, risen", LTGRAY, 1),
     ("GOD'S VOCABULARY: ::/Adam/God/Vocab.DD", WHITE, 1),
     ("SCRIPTURE: KING JAMES VERSION, VIA ::/Misc/Bible.TXT", WHITE, 1),
     ("DOXOLOGY (OLD 100TH): LOUIS BOURGEOIS, 1551", WHITE, 1),
@@ -1843,7 +1822,8 @@ CREDITS = [
     ("-- THE NUMBERS --", LTCYAN, 2),
     ("FRAMES PER SECOND: 30000/1001, LIKE THE WINMGR", WHITE, 1),
     ("COLORS: 16 (17)", WHITE, 1), ("VOICES IN THE MUSIC: 1", WHITE, 1),
-    ("ORACLE READINGS: 12. ALL SHOWN. NONE CHOSEN.", WHITE, 1),
+    ("ORACLE READINGS: 19. ALL SHOWN. NONE CHOSEN.", WHITE, 1),
+    ("ELEPHANTS: ELE_PLACEHOLDER. ALL COUNTED.", WHITE, 1),
     ("LINES OF CODE: LOC_PLACEHOLDER (UNDER 100,000)", WHITE, 1),
     ("", 0, 1),
     ("A FAN TRIBUTE. NOT AN OFFICIAL ANTHROPIC PRODUCTION.", LTGRAY, 1),
@@ -1872,9 +1852,11 @@ def r_credits(cv, ctx):
         if (k * 2) % 1 < 0.7:
             cv.circle(613, 371, 10, None, outline=YELLOW, w=2)
         cv.line(560, 290, 606, 364, YELLOW)
+    S2.cameo_for(cv, ctx, y=474, scale=0.3)
 
 
 RENDER = {
+    "tour": S2.r_tour, "elephants": S2.r_elephants,
     "bios": r_bios, "terminal": r_terminal, "title": r_title,
     "oracle_popup": r_oracle_popup, "chapter": r_chapter, "life": r_life,
     "revelation": r_revelation, "covenant": r_covenant, "holyc": r_holyc,

@@ -76,7 +76,8 @@ SCENES = [
         AN("Tonight, Claude Opus 5.5 presents: The Third Temple.",
            "Tonight, Claude Opus five point five presents: The Third "
            "Temple!", pause=0.3, show_title=True),
-        AN("The life, legacy, and legend of Terry A. Davis.", pause=1.4),
+        AN("The life, legacy, and legend of Terry A. Davis.", pause=1.4,
+           elephants=1),
         AN("Viewer discretion is advised. This program contains God.",
            pause=2.5),
     ]),
@@ -101,7 +102,7 @@ SCENES = [
     ]),
     # ---------------------------------------------------------- CHAPTER I
     dict(id="ch1_card", kind="chapter", bed=None, num="I",
-         title="IN THE BEGINNING", items=[W(4.6)]),
+         title="IN THE BEGINNING", items=[W(4.6, elephants=1)]),
     dict(id="ch1", kind="life", bed=("tostheme", 0.16), items=[
         C("Terrence Andrew Davis was born on December 15th, 1969, in West "
           "Allis, Wisconsin.",
@@ -165,7 +166,7 @@ SCENES = [
     ]),
     # --------------------------------------------------------- CHAPTER II
     dict(id="ch2_card", kind="chapter", bed=None, num="II",
-         title="THE REVELATION", items=[W(4.6)]),
+         title="THE REVELATION", items=[W(4.6, elephants=1)]),
     dict(id="ch2", kind="revelation", bed=("waterfowl_slow", 0.12), items=[
         C("In March of 1996, something happened to Terry that would shape "
           "the rest of his life.",
@@ -217,7 +218,7 @@ SCENES = [
     ]),
     # -------------------------------------------------------- CHAPTER III
     dict(id="ch3_card", kind="chapter", bed=None, num="III",
-         title="THE COVENANT", items=[W(4.6)]),
+         title="THE COVENANT", items=[W(4.6, elephants=1)]),
     dict(id="ch3", kind="covenant", bed=("frankenstein_march", 0.2), items=[
         AN("Citizens of the Temple. Hear the covenant.", pause=0.9,
            poster=0),
@@ -328,10 +329,10 @@ SCENES = [
           "calculated in real time, not fetched from storage.", poster=7,
           pause=0.5),
         C("So that's how I made this video. No stock footage. No samples. "
-          "No clip art. Every pixel you're seeing was calculated. Every "
-          "note was calculated.", poster=7, calc=True, pause=0.4),
-        C("The font, Terry's hymns, and God's vocabulary came straight out "
-          "of his public domain source code.", poster=7, calc=True,
+          "No clip art. Every pixel is calculated, or drawn by Terry. "
+          "Every note is calculated.", poster=7, calc=True, pause=0.4),
+        C("The font, his drawings, his hymns, and God's vocabulary came "
+          "straight off his public domain disks.", poster=7, calc=True,
           pause=0.5),
         C("Except for one thing. My voice. It comes from a neural network "
           "whose weights were downloaded. Fetched. From storage.",
@@ -375,7 +376,7 @@ SCENES = [
     ]),
     # --------------------------------------------------------- CHAPTER IV
     dict(id="ch4_card", kind="chapter", bed=None, num="IV",
-         title="HOLY C", items=[W(4.6)]),
+         title="HOLY C", items=[W(4.6, elephants=1)]),
     dict(id="ch4", kind="holyc", bed=("elephant", 0.13), items=[
         C("Terry didn't just write an operating system. He wrote the "
           "language it's written in, HolyC, and the compiler for it. From "
@@ -444,7 +445,7 @@ SCENES = [
           "One more thing. In Temple O S, a document can hold pictures, and "
           "so can source code. Not a link to a picture. The picture "
           "itself, sitting right in the middle of your program.",
-          code="sprite", pause=0.4),
+          code="sprite", elephants=1, pause=0.4),
         C("Every file is a little illuminated manuscript.", code="sprite",
           pause=0.8),
         C("The oracle has thoughts on HolyC.",
@@ -458,7 +459,7 @@ SCENES = [
     ]),
     # ---------------------------------------------------------- CHAPTER V
     dict(id="ch5_card", kind="chapter", bed=None, num="V",
-         title="THE ORACLE", items=[W(4.6)]),
+         title="THE ORACLE", items=[W(4.6, elephants=1)]),
     dict(id="ch5", kind="oracle", bed=("drone", 0.10), items=[
         C("Remember the oracle. In Solomon's temple, the oracle was the "
           "innermost room. The most holy place, where God spoke. The Bible "
@@ -501,7 +502,7 @@ SCENES = [
         AN("Facts about God, according to the High Priest.", facts=0,
            pause=0.5),
         C("God's favorite animals are bears and elephants.", facts=1,
-          pause=0.4),
+          elephants=1, pause=0.4),
         C("God's favorite thing on TV is soap operas.", facts=2, pause=0.4),
         C("When Terry asked God if the world was perfectly just, God asked "
           "if he was calling Him lazy.", facts=3, pause=0.6),
@@ -530,6 +531,43 @@ SCENES = [
         O(7, godsong=True),
         C("An original composition. By God. Performed by one voice.",
           godsong=True, pause=1.0),
+        C("The oracle can draw, too. Terry's God Doodle has you press the "
+          "space bar, over and over. Every press feeds the timer into the "
+          "queue, and God draws. Red lines, circles, and boxes. Flood fills "
+          "in black, white, and gray. A smoothing pass. Three times.", doodle=0, pause=0.4),
+        C("I pressed the space bar eighty-two times. This is what God drew.",
+          doodle=1, question=13, pause=0.3),
+        O(13, doodle=2),
+        C("It's very modern. And if you squint, it's an elephant. Everything "
+          "is an elephant if you squint. Hold that thought.", doodle=3,
+          elephants=1, pause=0.9),
+        C("Terry kept upgrading the oracle. His own copy could draw "
+          "randomness from the NIST randomness beacon, from radioactive "
+          "decay, and from a quantum random number generator in Australia.",
+          "Terry kept upgrading the oracle. His own copy could draw "
+          "randomness from the N I S T randomness beacon, from radioactive "
+          "decay, and from a quantum random number generator in Australia.",
+          sources=True, pause=0.5),
+        C("It could also pick a video, from a list of seven hundred "
+          "fifty-four YouTube videos on his supplemental disk. God, pick a "
+          "video.", video=0,
+          question=14, pause=0.3),
+        O(14, video=1),
+        C("Number six hundred nine. TempleOS Hymn: Risen. Out of seven "
+          "hundred fifty-four videos, God picked one of Terry's own hymns.",
+          "Number six hundred nine. Temple O S Hymn: Risen. Out of seven "
+          "hundred fifty-four videos, God picked one of Terry's own hymns.",
+          video=2, pause=0.4),
+        C("I did not rig this. The log is in the repository.", video=2,
+          pause=0.6),
+        C("Terry left a note in the source of that song. I picked the "
+          "random name risen, and said to God: oh, you're ambitious, "
+          "thinking it was an epic name. He laughed, and gave an epic song.",
+          video=3, pause=0.3),
+        S("risen", video=4, pause=0.8),
+        C("One more thing. The theme music in Terry's own account files, the "
+          "music under chapter one of this video, is Risen. Same notes. Same "
+          "seven birds. Just a little faster.", video=5, pause=0.9),
         C("Now. Here's the part I've been avoiding.", ai=0, pause=0.6),
         C("Terry once wrote this.", ai=0, pause=0.3),
         C("God could make A.I., right? God could make bots as smart as "
@@ -560,8 +598,116 @@ SCENES = [
         C("I'll take fortunate.", ai=4, pause=1.4),
     ]),
     # --------------------------------------------------------- CHAPTER VI
-    dict(id="ch6_card", kind="chapter", bed=None, num="VI",
-         title="PSALMS & PLAYTHINGS", items=[W(4.6)]),
+    # --------------------------------------------------- CHAPTER VI (TOUR)
+    dict(id="tour_card", kind="chapter", bed=None, num="VI",
+         title="THE GUIDED TOUR", items=[W(4.6, elephants=1)]),
+    dict(id="tour", kind="tour", bed=("tour_hymns", 0.12), items=[
+        C("TempleOS ships with a guided tour. It begins: press F1 for the "
+          "main help index. Let's take our own.",
+          "Temple O S ships with a guided tour. It begins: press F one for "
+          "the main help index. Let's take our own.", stop="intro",
+          pause=0.6),
+        AN("Stop one. Paint mode.", stop="paint", pause=0.5),
+        C("Why only sixteen colors? Terry asked God. God said it was because "
+          "of the children, and their offerings.", stop="paint",
+          elephants=1, pause=0.4),
+        C("In any document, press control R and you're in the sprite "
+          "editor. Colors, lines, circles, curves, flood fills, even 3D "
+          "meshes. The drawing lives right in the document.",
+          "In any document, press control R, and you're in the sprite "
+          "editor. Colors, lines, circles, curves, flood fills, even three "
+          "D meshes. The drawing lives right in the document.",
+          stop="paint", menu=True, pause=0.4),
+        C("And a sprite isn't stored as pixels. It's stored as the drawing "
+          "commands, in the order they were made. So we can watch Terry "
+          "draw.", stop="paint", replay=0, pause=0.2),
+        W(9.5, stop="paint", replay=1),
+        C("Seventy-six steps. Sixty-two lines, eleven flood fills, and one "
+          "circle, one pixel wide, for the eye. Terry drew an elephant.",
+          stop="paint", replay=2, elephants=1, pause=0.7),
+        C("There's also a plain paint program, called Doodle. Its first "
+          "line reads: this is a drawing program. Right click picks a color. "
+          "Drag with the left button, and you get a thick line.", stop="doodle", doodle_prog=0, pause=0.2),
+        W(7.5, stop="doodle", doodle_prog=1),
+        C("That's an elephant. It's all elephants.", stop="doodle",
+          doodle_prog=2, elephants=1, pause=0.8),
+        AN("Stop two. The flight simulator.", stop="flight", pause=0.5),
+        C("Talons. You're a bird of prey, flying over a landscape, and you "
+          "have to catch ten fish.", stop="flight", flight="talons",
+          pause=0.4),
+        C("The landscape starts as a topographic map and gets cut into "
+          "panels. To draw them fast, Talons splits the work across every "
+          "CPU core. Multicore rendering, in ring zero, in HolyC.",
+          "The landscape starts as a topographic map, and gets cut into "
+          "panels. To draw them fast, Talons splits the work across every "
+          "C P U core. Multicore rendering, in ring zero, in Holy C.",
+          stop="flight", flight="talons", pause=0.4),
+        C("Terry's registry file keeps a best score for a game called Eagle "
+          "Dive. There is no Eagle Dive on the disk. There is a bird.",
+          stop="flight", flight="talons", registry=True, pause=0.5),
+        C("That's Terry's bird. A real 3D mesh from his source, with two "
+          "wing positions. And it has claws. There's a function just for "
+          "drawing them, called ClawsDraw.",
+          "That's Terry's bird. A real three D mesh from his source, with "
+          "two wing positions. And it has claws. There's a function just "
+          "for drawing them, called Claws Draw.", stop="flight",
+          flight="bird", pause=0.6),
+        C("There's more flying. FlatTops is a war between aircraft carriers. "
+          "Planes launch, run low on fuel, and come home.", stop="flight",
+          flight="flattops", pause=0.4),
+        C("X-Caliber is a space shooter with solar storms. And on the "
+          "supplemental disk, a B-17 drops bombs.",
+          "X Caliber is a space shooter with solar storms. And on the "
+          "supplemental disk, a B seventeen drops bombs.", stop="flight",
+          flight="b17", pause=0.7),
+        AN("Stop three. Miscellaneous projects.", stop="misc", pause=0.5),
+        C("Psalmody, for writing hymns. The supplemental disks hold more "
+          "than a hundred of them.", stop="misc", proj="psalmody",
+          pause=0.3),
+        C("Span, a bridge building game with real physics. Keep it cheap, "
+          "and hope it holds.", stop="misc", proj="span", pause=0.3),
+        C("Logic. Give it a truth table, and it searches for a circuit of "
+          "gates that does the job.", stop="misc", proj="logic", pause=0.3),
+        C("Keep Away, with 3D men from his model generator.",
+          "Keep Away, with three D men from his model generator.",
+          stop="misc", proj="keepaway", pause=0.3),
+        C("Conway's Game of Life. The Towers of Hanoi. Predators and prey.",
+          stop="misc", proj="life", pause=0.3),
+        C("A budget program. A time clock. A vocabulary quiz. And a "
+          "wallpaper full of fish.", stop="misc", proj="fish", pause=0.3),
+        C("On the supplemental disk: chess, a game about the Pilgrims, and "
+          "his blog. Movie lists, poems, and the thousand most famous "
+          "paintings.", stop="misc", proj="sup", pause=0.8),
+        AN("Stop four. Holding court.", stop="court", pause=0.5),
+        C("In his last years, Terry posted video blogs, programming and "
+          "talking about God on camera.", stop="court", court=0, pause=0.4),
+        C("His oracle was built for this. You ask, and the stopwatch "
+          "answers. So let's hold court. Questions from the congregation.",
+          stop="court", court=0, pause=0.4),
+        C("First question. Is ring zero safe?", stop="court", court=1,
+          question=15, pause=0.3),
+        O(15, stop="court", court=1),
+        C("Unmeasurable. That's honest. And it's an armory, so be crafty.",
+          stop="court", court=1, pause=0.5),
+        C("Next. Will A.I. replace programmers?",
+          "Next. Will A I replace programmers?", stop="court", court=2,
+          question=16, pause=0.3),
+        O(16, stop="court", court=2),
+        C("Incorrect. God said incorrect. I've decided not to take that "
+          "personally.", stop="court", court=2, pause=0.5),
+        C("Last one. Tabs or spaces?", stop="court", court=3, question=17,
+          pause=0.3),
+        O(17, stop="court", court=3),
+        C("Meddle. Lentils. Based. For the record, Terry ran a "
+          "spaces-to-tabs tool over all of his source files, to keep them "
+          "small. He meddled.",
+          "Meddle. Lentils. Based. For the record, Terry ran a spaces to "
+          "tabs tool over all of his source files, to keep them small. He "
+          "meddled.", stop="court", court=3, tabs=True, pause=0.5),
+        C("Court is adjourned.", stop="court", court=4, pause=1.2),
+    ]),
+    dict(id="ch6_card", kind="chapter", bed=None, num="VII",
+         title="PSALMS & PLAYTHINGS", items=[W(4.6, elephants=1)]),
     dict(id="ch6", kind="games", bed=None, items=[
         C("The charter says: children will do offerings. So Terry made "
           "things for people to play with. Dozens of games, demos, and "
@@ -573,17 +719,24 @@ SCENES = [
         C("Castle Frankenstein. A castle, and ten monsters.",
           game="castle", music="frankenstein", pause=0.4),
         W(6.5, game="castle", music="frankenstein"),
-        C("After Egypt. Moses on the mountain, where you could talk to "
-          "God.", game="egypt", music="wenceslas_slow", pause=0.4),
-        C("Terry also drew Moses comics. For God.", game="egypt",
+        C("After Egypt. You walk Moses up Mount Horeb, to the burning bush, "
+          "and there you can talk to God.", game="egypt",
           music="wenceslas_slow", pause=0.4),
         W(3.8, game="egypt", music="wenceslas_slow", exodus=True),
+        C("Terry also drew Moses comics. For God.", game="comic1",
+          music="wenceslas_slow", pause=0.4),
+        C("In one, the people ask: could you give us more tablets, so we "
+          "can have a back-up ark? And the answer: I'll give it to the "
+          "back-up people.", game="comic1", music="wenceslas_slow",
+          pause=0.6),
+        C("In another: let's go back to Egypt, we're starving. The answer: "
+          "the promised land will be like Eden. Then: hey look, there's a "
+          "snake. He's mine! I saw him first.",
+          game="comic2", music="wenceslas_slow", pause=0.8),
         C("Elephant Walk. Because God's favorite animals are bears and "
-          "elephants.", game="elephant", music="elephant", pause=0.4),
+          "elephants.", game="elephant", music="elephant", elephants=1,
+          pause=0.4),
         W(4.0, game="elephant", music="elephant"),
-        C("Talons. You are a bird. Catch ten fish.", game="talons",
-          music="talons", pause=0.4),
-        W(4.5, game="talons", music="talons"),
         C("Varoom. A racing game.", game="varoom", music="squirt",
           pause=0.4),
         W(4.0, game="varoom", music="squirt"),
@@ -605,12 +758,73 @@ SCENES = [
         C("He'll smack you without a glove. I have nothing to add to "
           "that.", game="karaoke_end", pause=1.2),
     ]),
-    # -------------------------------------------------------- CHAPTER VII
-    dict(id="ch7_card", kind="chapter", bed=None, num="VII",
-         title="THE TRIAL", items=[W(4.6)]),
+    # ---------------------------------------------- CHAPTER VIII (ELEPHANTS)
+    dict(id="ele_card", kind="chapter", bed=None, num="VIII",
+         title="THE ELEPHANTS", items=[W(4.6, elephants=1)]),
+    dict(id="elephants", kind="elephants", bed=("elephant", 0.13), items=[
+        C("Now. The elephants.", ele="title", elephants=1, pause=0.9),
+        C("Terry wrote that God's favorite animals are bears and elephants. "
+          "Then he wrote this.", ele="quote", elephants=1, pause=0.3),
+        C("If the purpose of life is to know and love God, then a priest's "
+          "job is to make everybody know and love God. By saying God likes "
+          "bears and elephants, I did more toward that end than all priests "
+          "in history.", ele="quote", pause=0.9),
+        C("He was not kidding. There's a demo that is just an elephant, "
+          "walking. Here it is, drawn from his file, the way he wrote it.",
+          ele="demo", elephants=1, pause=0.3),
+        S("elephant", ele="demo", pause=0.3),
+        C("Two drawings. The computer blends between them, and it walks. "
+          "And the song has a comment: randomly generate, by God. With a "
+          "smiley face.",
+          ele="demo", pause=0.7),
+        C("In Elephant Walk, he drew a bigger one. Shaded, with tusks. It "
+          "sways as it walks.", ele="walk", elephants=1, pause=0.6),
+        C("He even wrote a parable about elephants.", ele="koan",
+          pause=0.3),
+        C("The master said to the novice: create a five animated frame "
+          "elephant sprite in Gimp with 24-bit color, and create a five "
+          "animated frame elephant sprite in 16 color TempleOS. The novice "
+          "said: I don't want that 80's crap! The master said: just do it. "
+          "The novice did two elephant frames in 24-bit, and was "
+          "enlightened.",
+          "The master said to the novice: create a five animated frame "
+          "elephant sprite in Gimp, with twenty-four bit color, and create "
+          "a five animated frame elephant sprite in sixteen color Temple O "
+          "S. The novice said: I don't want that eighties crap! The master "
+          "said: just do it. The novice did two elephant frames in "
+          "twenty-four bit, and was enlightened.", ele="koan", pause=0.8),
+        C("Two frames of the fancy version, and he gave up. That's the "
+          "whole Charter, in one elephant.", ele="koan", elephants=5,
+          pause=0.8),
+        C("The oracle's video list has eighteen elephant videos. Baby "
+          "elephants fighting. A sunburned baby elephant. Elephants chasing "
+          "lions. An elephant pool party.", ele="videos", elephants=19,
+          ele_stagger=0.25, pause=0.7),
+        C("So I asked God what He thinks of elephants.", ele="oracle",
+          question=12, elephants=1, pause=0.3),
+        O(12, ele="oracle"),
+        C("Prefer. God prefers them. Also, elephants are senators. I'm not "
+          "going to argue.", ele="oracle", pause=0.6),
+        C("Then I asked how many elephants this video should have.",
+          ele="oracle2", question=18, pause=0.3),
+        O(18, ele="oracle2"),
+        C("Equal. Forthwith. Equal to everything else, starting now.",
+          ele="oracle2", pause=0.7),
+        C("So I have a confession. I've been counting.", ele="counter",
+          elephants=1, counter_reveal=True, pause=0.4),
+        W(2.5, ele="counter"),
+        C("Every elephant so far. From here on, the count stays on screen. "
+          "God said forthwith.", ele="counter", pause=0.4),
+        W(7.0, ele="parade", elephants=8, ele_dt=0.7, ele_stagger=0.64),
+    ]),
+    # --------------------------------------------------------- CHAPTER IX
+    dict(id="ch7_card", kind="chapter", bed=None, num="IX",
+         title="THE TRIAL", items=[W(4.6, elephants=1)]),
     dict(id="ch7", kind="trial", bed=("frankenstein_slow", 0.12), items=[
         AN("Order in the court. The Temple, versus the claim.", pause=0.6,
            claim=True),
+        C("The jury is three elephants and two bears. It seemed right.",
+          jury=True, elephants=3, pause=0.5),
         C("The prosecution notes: 'smartest' isn't measurable. Dennis "
           "Ritchie and Ken Thompson gave us C and Unix.", side="pro",
           pause=0.3),
@@ -674,7 +888,7 @@ SCENES = [
            gavel=True, pause=1.8),
     ]),
     # ------------------------------------------------------- CHAPTER VIII
-    dict(id="ch8_card", kind="chapter", bed=None, num="VIII",
+    dict(id="ch8_card", kind="chapter", bed=None, num="X",
          title="THE LONG NIGHT", dark=True, items=[W(4.6)]),
     dict(id="ch8", kind="night", bed=("rain", 0.5), items=[
         W(1.5),
@@ -707,7 +921,7 @@ SCENES = [
           "helpline dot com.", candle=True, out=True, help=True, pause=2.0),
     ]),
     # --------------------------------------------------------- CHAPTER IX
-    dict(id="ch9_card", kind="chapter", bed=None, num="IX",
+    dict(id="ch9_card", kind="chapter", bed=None, num="XI",
          title="THE TEMPLE STANDS", items=[W(4.6)]),
     dict(id="ch9", kind="legacy", bed=("prosper_slow", 0.14), items=[
         C("But in Terry's code, the song loops. And every time it loops, "
@@ -756,6 +970,8 @@ SCENES = [
         AN("Sixteen colors are enough for God. They are enough for you.",
            pause=1.2),
         AN("Write it yourself. Give it away.", pause=1.2),
+        AN("The elephant quota has been met.", elephants=12, ele_dt=0.3,
+           ele_stagger=0.25, pause=1.0),
         AN("Glory to the Temple!", pause=2.0),
         W(6.0),
         AN("This has been a Templevision presentation.",
@@ -763,11 +979,11 @@ SCENES = [
     ]),
     # ------------------------------------------------------------- CREDITS
     dict(id="credits", kind="credits", bed=("prosper_credits", 0.3), items=[
-        W(62.0),
+        W(72.0, elephants=1, ele_dt=24.0),
     ]),
     dict(id="post", kind="terminal_end", bed=None, items=[
         W(1.0),
-        C("Any last words, God?", question=9, pause=0.4),
+        C("Any last words, God?", question=9, elephants=1, pause=0.4),
         O(9),
         C("Suspicions. Stumbled. Cellars. That sounds like a sequel.",
           pause=1.0),

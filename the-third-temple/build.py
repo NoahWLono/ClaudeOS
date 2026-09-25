@@ -22,6 +22,7 @@ sys.path.insert(0, HERE)
 import script  # noqa: E402
 from temple import audio as A  # noqa: E402
 from temple import fx, gfx, music as M, scenes as SC, timeline, ui  # noqa
+from temple import scenes2 as S2  # noqa: E402
 from temple.gfx import H, W, Canvas  # noqa: E402
 
 BUILD = os.path.join(HERE, "build")
@@ -98,11 +99,23 @@ def bed_track(name, dur):
                 ns, L = M.notes(nm)
                 parts.append(M.render(ns, L, gain=0.28))
             y = np.concatenate(parts)
+        elif name == "tour_hymns":
+            # a medley from Terry's supplemental hymnal
+            parts = []
+            for nm in TOUR_HYMNS:
+                ns, L = M.notes(M.hymn(nm))
+                parts.append(M.render(ns, L, gain=0.28))
+                parts.append(np.zeros(int(0.6 * sr), np.float32))
+            y = np.concatenate(parts)
         else:
             ns, L = M.notes(base, tempo_scale=scale)
             y = M.render(ns, L, gain=0.28)
     reps = int(math.ceil(dur * sr / max(len(y), 1))) + 1
     return np.tile(y, reps)[:int(dur * sr)]
+
+
+TOUR_HYMNS = ("science", "hearsay", "free", "happy", "silver", "good",
+              "gutenberg", "garfield")
 
 
 def fade(y, a=0.6, b=1.2):
@@ -188,6 +201,13 @@ def scene_sfx(sc):
                   "first"))
         out.append((sp["t1"] - 0.2, A.noise_burst(0.4, 8, 7000, 0.2, 4), 1))
     for it in items:
+        if it["type"] == "oracle" and it["entry"]["kind"] == "doodle":
+            # the space bar, once per real press, spread over the drawing
+            ps = it["entry"]["presses_ns"]
+            span = max(ps[-1] - ps[0], 1)
+            for j, p in enumerate(ps):
+                tt = it["doodle_t0"] + (p - ps[0]) / span * it["doodle_dur"]
+                out.append((tt, key_click(900 + j), 1.2))
         if it["type"] == "oracle":
             out.append((it["t0"] + 0.5, A.beep(660, 0.06, 0.15), 1.0))
             for a, b in it.get("word_times", []):
@@ -300,6 +320,10 @@ def mix(scenes, clips, T):
                 y[i0:i1] *= np.linspace(1, 0, i1 - i0)
                 y[i1:] = 0
         A.place(beds, y, s0)
+    ev = S2.set_events(scenes)
+    for te in ev["ev"]:
+        if ev["reveal"] is not None and te >= ev["reveal"] + 2.0:
+            A.place(sfx, A.beep(1568, 0.035, 0.07), te, 1.0)
     m = voice + songs + beds * duck + sfx
     m = np.tanh(m * 1.1) / 1.1
     m *= 0.93 / max(np.abs(m).max(), 1e-6)
@@ -329,6 +353,12 @@ def _setup(scenes, T):
             if it.get("orange_on"):
                 orange = sc["start"] + it["t0"]
     _G["orange"] = orange
+    ev = S2.set_events(scenes)
+    _G["reveal"] = ev["reveal"]
+    for i, (s, c, sz) in enumerate(SC.CREDITS):
+        if "ELE_PLACEHOLDER" in s:
+            SC.CREDITS[i] = (s.replace("ELE_PLACEHOLDER", str(len(
+                ev["ev"]))), c, sz)
     n = loc()
     for i, (s, c, sz) in enumerate(SC.CREDITS):
         if "LOC_PLACEHOLDER" in s:
@@ -353,6 +383,12 @@ def draw_scene(i, T, frame):
 def overlays(cv, ctx):
     it = ctx.cur
     sc = ctx.sc
+    rv = _G.get("reveal")
+    if rv is not None and ctx.T >= rv + 2.0 and \
+            sc["id"] not in S2.HIDE_COUNTER:
+        pop = S2.since_last(ctx.T) < 0.45
+        S2.counter_badge(cv, S2.count_at(ctx.T), 1.0 if pop else 0.0,
+                         y=84 if sc["kind"] == "finale" else 12)
     # stamps with shake
     for x in sc["items"]:
         if "stamp" in x and x["t0"] <= ctx.t < x["t2"] + 0.1:
